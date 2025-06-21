@@ -1,4 +1,56 @@
 ---
-title: "New file"
-description: "Description of your new file."
+title: "Admin API Flow"
+description: "Admins manage ingredients and dishes."
 ---
+
+The following is the flow for admins:
+
+1. Log in to the administration app.
+   Admins logs in the the administration app to manage ingredients and dishes. Admins must have a user name and password to log into the administration app.
+2. Create ingredients
+   It starts with ingredients. Ingredients are the fundamental components that are used to create dishes. Admins create ingredients and specify their quantity to track inventory levels accurately. This ensures there are sufficient ingredients available to fulfill customer orders.
+3. Create dishes\
+   Dishes are composed of ingredients. Admins create dishes by associating them with the necessary ingredients. 
+
+## 1. Log into the administration app
+
+ Admins log into the adminstration app with a user name and password.
+
+### Request
+
+The client sends an HTTP request to authenticate the user's login information (user name and password) and get an access token.
+
+**Request type:** POST
+**Request URL:** `https://refactored-eureka-x4g44xx55g4f9px7-80.app.github.dev/auth/token`
+
+**Example request**
+
+```curl curl [expandable]
+--request POST \
+--url https://refactored-eureka-x4g44xx55g4f9px7-80.app.github.dev/auth/token \
+--header 'accept: application/json' \
+--header 'content-type: application/json' \
+--data '
+{
+"user_name": "username",
+"password": "password",
+"grant_type": "password"
+}'
+```
+
+### Response
+If the request was successful, the server responds with a `201` status code with the response body containing the following:
+
+
+```json
+{
+    "created_at": "2025-06-21T15:39:58.709Z",
+    "updated_at": "2025-06-21T15:39:58.709Z",
+    "access_token": "0cfaa476-e1f3-4ff5-9089-b5b1cf50c228",
+    "expires_at": "2025-06-21T16:09:58.709Z",
+    "refresh_token": "483588ca-c363-42a4-a467-c5c0d494f6ff",
+    "token_type": "Bearer",
+    "user_name": "sarah",
+    "_id": "6856d24e7514bdb8dfe5016e",
+    "__v": 0
+}```
