@@ -5,43 +5,45 @@ description: "Managing ingredients and dishes."
 
 Admins manange ingredients and dishes:
 
-1. Log in to the administration app. 
-2. Admins log in the the administration app to manage ingredients and dishes. Admins must have a user name and password to log into the administration app.
-3. Create ingredients.
+1. Log in to the administration app.
+
+   Admins log in the the administration app to manage ingredients and dishes. Admins must have a user name and password to log into the administration app.
+2. Create ingredients.
 
    Ingredients are the fundamental components that are used to create dishes. Admins create ingredients and specify their quantity to track inventory levels accurately. This ensures there are sufficient ingredients available to fulfill customer orders.
-4. Create dishes.\
+3. Create dishes.\
    Dishes are composed of ingredients. Admins create dishes by associating them with the necessary ingredients. 
 
-## 1. Log into the administration app
+## 1. Log in to the administration app.
 
- Admins log into the adminstration app with a user name and password.
+### **Request**
 
-### Request
+Authenticate the login information (user name and password) and get an access token.
 
-The client sends an HTTP request to authenticate the user's login information (user name and password) and get an access token.
+Method:`POST `
 
-**Request type:** POST
-**Request URL:** `https://refactored-eureka-x4g44xx55g4f9px7-80.app.github.dev/auth/token`
+URL: `https://refactored-eureka-x4g44xx55g4f9px7-80.app.github.dev/`
+
+`Endpoint: `auth/token
 
 **Example request**
 
 ```curl curl [expandable]
---request POST \
---url https://refactored-eureka-x4g44xx55g4f9px7-80.app.github.dev/auth/token \
+--curl -X POST \
+'https://refactored-eureka-x4g44xx55g4f9px7-80.app.github.dev/auth/token' \
 --header 'accept: application/json' \
 --header 'content-type: application/json' \
 --data '
-{
-"user_name": "username",
-"password": "password",
-"grant_type": "password"
-}'
+	{
+		"user_name": "username",
+		"password": "password",
+		"grant_type": "password"
+	}'
 ```
 
 ### Response
 
-If the request was successful, the server responds with a `201` status code with the response body containing the following:
+If the request was successful, the server responds with a `201 CREATED` status code with the response body containing the following:
 
 ```json
 {
@@ -56,3 +58,114 @@ If the request was successful, the server responds with a `201` status code with
     "__v": 0
 }
 ```
+
+## 2. Create ingredients.
+
+### **Request**
+
+Create ingredients.
+
+Method: `POST `
+
+URL: `https://refactored-eureka-x4g44xx55g4f9px7-80.app.github.dev/`
+
+`Endpoint: `/ingredients
+
+**Example request**
+
+```curl curl [expandable]
+--curl -X POST \
+'https://refactored-eureka-x4g44xx55g4f9px7-80.app.github.dev/ingredients' \
+--header 'accept: application/json' \
+--header 'content-type: application/json' \
+--data '
+	{
+		"name": "onion",
+		"in_stock_qty": 3,
+		"price": 199
+	}'
+```
+
+**Parameters**
+
+| Parameter      | Description                                        | Required/Optional | Example values                | Type    |
+| :------------- | :------------------------------------------------- | :---------------- | :---------------------------- | :------ |
+| `name`         | Name of the ingredient                             | Required          | celery<br />onion<br />pepper | string  |
+| `in_stock_qty` | The amount of the ingredient to be added to stock. | Required          | 3                             | integer |
+| `price`        | The cost of the ingredient.                        | Required          | 3                             | integer |
+
+### Response
+
+If the request was successful, the server responds with a `201 CREATED` status code with the response body containing the following:
+
+```json
+{
+  "id": "6858910a37b0cae6985b65b7",
+  "created_at": "2025-06-22T23:26:02.365Z",
+  "updated_at": "2025-06-22T23:26:02.365Z",
+  "name": "cabbage",
+  "in_stock_qty": 1,
+  "price": 499
+}
+```
+
+Where:
+
+- `id` = the unique identifier for the new ingredient.
+- `created_at` = the date the ingredient was first added to stock.
+- `updated_at` = the date the ingredient details were updated.
+- `name`  = the name of the ingredient.
+- `in_stock_qty` = the amount of the ingredient in stock. 
+- `price` = the cost of the ingredient.
+
+## 3. Create ingredients.
+
+### **Request**
+
+Create dishes.
+
+Method: `POST `
+
+URL: `https://refactored-eureka-x4g44xx55g4f9px7-80.app.github.dev/`
+
+`Endpoint: `/dishes
+
+**Example request**
+
+```curl curl [expandable]
+--curl -X POST \
+'https://refactored-eureka-x4g44xx55g4f9px7-80.app.github.dev/ingredients' \
+--header 'accept: application/json' \
+--header 'content-type: application/json' \
+--data '
+	{
+  		"name": "Cabbage stew",
+  		"description": "A traditional cabbage stew.",
+  		"category": "Main Course",
+  		"ingredients": [
+    		{
+      			"ingredient_id": "6858910a37b0cae6985b65b7",
+      			"is_essential": true
+    		}
+  		],
+  		"preparation_time": 45,
+  		"price": 999,
+  		"station": "hot"
+	}'
+```
+
+**Parameters**
+
+| Parameter                                                                           | Description                                                                                                                | Required/Optional | Example values                                                         | Type                                                          |
+| :---------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------- | :---------------- | :--------------------------------------------------------------------- | :------------------------------------------------------------ |
+| `name`                                                                              | Name of the dish.                                                                                                          | Required          | Pasta verde                                                            | string                                                        |
+| `description`                                                                       | A detailed description of the dish.                                                                                        | Required          | A fresh salad featuring ripe tomatoes, mozzarella cheese, and basil.   | string                                                        |
+| `category`                                                                          | The type of course that the dish is included in.                                                                           | Required          | Main Course<br />Appetizer<br />Dessert<br />Drinks                    | string                                                        |
+| `ingredients`<br /><br /><br /><br /><br />`ingredient_id`        			`is_essential` | An array of ingredients for the dish.<br /><br />ID of the ingredient<br /><br />Is the ingredient essential for the dish. | Required          | <br /><br /><br /><br /><br />6858910a37b0cae6985b65b7<br /><br />true | Array<br /><br /><br /><br /><br />integer<br /><br />boolean |
+| `preparation_time`                                                                  | The length of time in minutes to prepare the dish.                                                                         | Optional          | 45                                                                     | integer                                                       |
+| `price`                                                                             | The cost of the dish for the patron.                                                                                       | Optional          | 499                                                                    | integer                                                       |
+| `station`                                                                           |                                                                                                                            | Required          | Hot<br />Cold                                                          | string                                                        |
+
+### Response
+
+If the request was successful, the server responds with a `201 CREATED`code.

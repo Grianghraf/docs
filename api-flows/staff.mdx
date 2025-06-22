@@ -9,44 +9,44 @@ Expeditors oversee the order by setting the priority and status of the order,  a
 
 1. View new orders.
 
-   Expeditors get a list of all new orders on the KDS.  
+   Expeditors get a list of all new orders on the KDS.
 2. Prioritize.
 
-   Expeditors adjust the priority of the order between 1-5, with 1 requireing immediate attention. 
+   Expeditors adjust the priority of the order between 1-5, with 1 requireing immediate attention.
 3. Initiate order preparation.\
-   Expeditors initiate the order preparation by setting the status to "In Progress". Each dish is then assigned to the relevant station. 
+   Expeditors initiate the order preparation by setting the status to "In Progress". Each dish is then assigned to the relevant station.
 4. Prepare the order by station.
 
-   Station staff view the dishes in the order for their station and begin preparing the order. 
+   Station staff view the dishes in the order for their station and begin preparing the order.
 5. Displaying dish ingredients.
 
-   Station staff get a list of ingredients for each dish.  
+   Station staff get a list of ingredients for each dish.
 6. Set dishes as "Ready for Assembly".
 
-   Station staff set dishes as "Ready for Assembly" when dish preparation is complete. 
+   Station staff set dishes as "Ready for Assembly" when dish preparation is complete.
 7. Assemble the order.
 
-   Expeditors assemble the order from the completed dishes. 
+   Expeditors assemble the order from the completed dishes.
 
 ## 1. View new orders.
 
 ### Request
 
-Get the list of dishes for a category.
+Get the list of orders.
 
 Method: `GET`
 
 URL: `https://refactored-eureka-x4g44xx55g4f9px7-80.app.github.dev/`
 
-Endpoint: `/dishes?filter=category.eq~{category_name}`
+Endpoint: `/orders?filter=status.eq~Received|created_at.gte~{date today}`
 
-Where: `{category_name}`= the name of the course in string format. Category can be one of the following: `appetizer`, `main course`, `dessert`, `drinks`
+Where: `{date today}`= today's date in the format `yyyy-mm-dd`
 
 **Example request**
 
 ```curl curl [expandable]
 --curl -X GET \
-'https://refactored-eureka-x4g44xx55g4f9px7-80.app.github.dev/dishes?filter=category.eq~{category}' \
+'https://refactored-eureka-x4g44xx55g4f9px7-80.app.github.dev/dishes?filter=status.eq~Received|created_at.gte~2025-01-01' \
 --header 'accept: application/json' \
 --header 'content-type: application/json' \
 ```
@@ -59,274 +59,78 @@ If the request was successful, the server responds with a `200: OK` status code 
 
 ```json
 {
-  "results": [
-    {
-      "id": "6820fe8a0443bc50461da986",
-      "created_at": "2024-11-08T18:47:58.116Z",
-      "updated_at": "2025-05-11T01:34:44.208Z",
-      "name": "Bruschetta al Pomodoro",
-      "description": "Toasted bread topped with a mixture of ripe tomatoes, garlic, basil, and olive oil.",
-      "category": "Appetizers",
-      "preparation_time": 25,
-      "price": 9999,
-      "image_name": "bruschetta_al_pomodoro",
-      "station": "cold",
-      "ingredients": [
+    "results": [
         {
-          "ingredient_id": "6820fe8a0443bc50461da95e",
-          "is_essential": false,
-          "_id": "6820fe8a0443bc50461da987"
-        },
-        {
-          "ingredient_id": "6820fe8a0443bc50461da953",
-          "is_essential": false,
-          "_id": "6820fe8a0443bc50461da988"
+            "id": "6820fe8a0443bc50461daa36",
+            "table_number": null,
+            "status": "Received",
+            "priority": 1,
+            "dish_ids": [
+                "6820fe8a0443bc50461daa19",
+                "6820fe8a0443bc50461da9b1",
+                "6820fe8a0443bc50461da9e2",
+                "6820fe8a0443bc50461da9f7"
+            ]
         }
-      ]
-    }
-  ],
-  "total_results": 1
-}
+	]
 ```
 
 Where:
 
-- `id `= the ID (unique identifier) for the dish.
-- `created_at` =  the date and time the dish was first added to stock.
-- `updated_at` = the date and time the dish details were last updated.
-- `name` = name of the dish.
-- `description`: detailed description of the dish.
-- `category` = what course is the dish part of (`appetizer`, `main course`, `dessert`, `drinks)`
-- `preparation_time` = how long to prepare the dish in minutes
-- `price`: price charged to patrons (in dollars).
-- `station`: station where the dish is prepared (`cold`, `hot`, `beverages`).
-- `ingredients` = array of ingredients that are included in the dish:
-  - `in_stock_qty` = the total of the ingredient currently in stock.
-  - `id` = the ID (unique identifier) for the dish.
-  - `name` = the name of the ingredient.
-  - `price` = the cost of the ingredient.
-  - `is_essential` = is the ingredient essential for the dish (`true`, `false`).
+- `id `= the ID (unique identifier) for the order.
+- `table_number`=  the table number of the order (`null `= takeaway order).
+- `status`= the stage of the order.
+- `priority`= the urgency of the order (1-5).
+- `dish_ids`= the dishes to be included in the order.
 
-# 2. Prioritize.
+## 2. Prioritize.
 
 ### Request
 
-Get an ingredient's quantities.
+Update the order priority.
 
-Method: `GET`
+Method: `PUT`
 
 Base URL: `https://refactored-eureka-x4g44xx55g4f9px7-80.app.github.dev/`
 
-Endpoint: `/ingredients/{ingredient_id}`
+Endpoint: `/orders/{id}`
 
-Where: `{ingredient_id}`= the id of the ingredient.
-
-**Example request**
-
-```curl curl [expandable]
---curl -X GET \
-'https://refactored-eureka-x4g44xx55g4f9px7-80.app.github.dev/ingredients/{ingredient_id}' \
---header 'accept: application/json' \
---header 'content-type: application/json'
-```
-
-### Response
-
-If the request was successful, the server responds with a `200: OK` status code with the response body containing the following:
-
-**Example response**
-
-```json
-{
-  "results": [
-    {
-      "id": "6820fe8a0443bc50461da986",
-      "created_at": "2024-11-08T18:47:58.116Z",
-      "updated_at": "2025-05-11T01:34:44.208Z",
-      "name": "Bruschetta al Pomodoro",
-      "description": "Toasted bread topped with a mixture of ripe tomatoes, garlic, basil, and olive oil.",
-      "category": "Appetizers",
-      "preparation_time": 25,
-      "price": 9999,
-      "image_name": "bruschetta_al_pomodoro",
-      "station": "cold",
-      "ingredients": [
-        {
-          "ingredient_id": "6820fe8a0443bc50461da95e",
-          "is_essential": false,
-          "_id": "6820fe8a0443bc50461da987"
-        },
-        {
-          "ingredient_id": "6820fe8a0443bc50461da953",
-          "is_essential": false,
-          "_id": "6820fe8a0443bc50461da988"
-        }
-      ]
-    }
-  ],
-  "total_results": 1
-}
-```
-
-Where:
-
-- `in_stock_qty` = the total of the ingredient currently in stock.
-- `id` = the ID (unique identifier) for the ingredient.
-- `created_at` =  the date and time the ingredient was first added to stock.
-- `updated_at` = the date and time the ingredient details were last updated.
-- `name` = the name of the ingredient.
-- `price` = the cost of the ingredient.
-
-# 3. Initiate order preparation.
-
-### Request
-
-Get a dish's details.
-
-Method: `GET`
-
-URL: `https://refactored-eureka-x4g44xx55g4f9px7-80.app.github.dev/`
-
-Endpoint: `/dishes/{id}`
-
-Where: `{id}`= the id of the dish
+Where: `{id}`= the id of the order.
 
 **Example request**
 
 ```curl curl [expandable]
---curl -X GET \
-'https://refactored-eureka-x4g44xx55g4f9px7-80.app.github.dev/dishes/6820fe8a0443bc50461da986' \
---header 'accept: application/json' \
---header 'content-type: application/json' \
-```
-
-### Response
-
-If the request was successful, the server responds with a `200: OK` status code with the response body containing the following:
-
-**Example response**
-
-```json
-{
-  "results": [
-    {
-      "id": "6820fe8a0443bc50461da986",
-      "created_at": "2024-11-08T18:47:58.116Z",
-      "updated_at": "2025-05-11T01:34:44.208Z",
-      "name": "Bruschetta al Pomodoro",
-      "description": "Toasted bread topped with a mixture of ripe tomatoes, garlic, basil, and olive oil.",
-      "category": "Appetizers",
-      "preparation_time": 25,
-      "price": 9999,
-      "image_name": "bruschetta_al_pomodoro",
-      "station": "cold",
-      "ingredients": [
-        {
-          "ingredient_id": "6820fe8a0443bc50461da95e",
-          "is_essential": false,
-          "_id": "6820fe8a0443bc50461da987"
-        },
-        {
-          "ingredient_id": "6820fe8a0443bc50461da953",
-          "is_essential": false,
-          "_id": "6820fe8a0443bc50461da988"
-        }
-      ]
-    }
-  ],
-  "total_results": 1
-}
-```
-
-Where:
-
-- `id `= the ID (unique identifier) for the dish.
-- `created_at` =  the date and time the dish was first added to stock.
-- `updated_at` = the date and time the dish details were last updated.
-- `name` = name of the dish.
-- `description`: detailed description of the dish.
-- `category` = what course is the dish part of (`appetizer`, `main course`, `dessert`, `drinks)`
-- `preparation_time` = how long to prepare the dish in minutes
-- `price`: price charged to patrons (in dollars).
-- `station`: station where the dish is prepared (`cold`, `hot`, `beverages`).
-- `ingredients` = array of ingredients that are included in the dish:
-  - `in_stock_qty` = the total of the ingredient currently in stock.
-  - `id` = the ID (unique identifier) for the dish.
-  - `name` = the name of the ingredient.
-  - `price` = the cost of the ingredient.
-  - `is_essential` = is the ingredient essential for the dish (`true`, `false`).
-
-# 4. Set dishes as "Ready for Assembly".
-
-Patrons add their chosen dishes to their order in the app. The client app tracks the dishes until the patron places their order.
-
-# 5. Assemble the order.
-
-### Request
-
-Create an order.
-
-Method: `POST`
-
-URL: `https://refactored-eureka-x4g44xx55g4f9px7-80.app.github.dev/`
-
-Endpoint: `/order`
-
-**Example request**
-
-```curl curl [expandable]
---curl -X GET \
-'https://refactored-eureka-x4g44xx55g4f9px7-80.app.github.dev/dishes/6820fe8a0443bc50461da986' \
---header 'accept: application/json' \
---header 'content-type: application/json' \
+--curl -X PUT\
+'https://refactored-eureka-x4g44xx55g4f9px7-80.app.github.dev/orders/6820fe8a0443bc50461daa35' \
+--H 'accept: application/json' \
+--H 'content-type: application/json'
 --data'
-{
-  "id": "6820fe8a0443bc50461daa2d",
-  "name": "Ann",
-  "table_number": 30,
-  "status": "Draft",
-  "priority": 2,
-  "dish_ids": [
-       "6820fe8a0443bc50461da9cd",
-       "6820fe8a0443bc50461da986",
-       "6820fe8a0443bc50461da9b5",
-       "6820fe8a0443bc50461da9a0",
-       "6820fe8a0443bc50461da9d6"
-            ],
-  "special_requests": "no onions",
-  "created_at": "2024-07-11T08:52:37.070Z",
-  "updated_at": "2025-05-11T04:39:59.797Z",
-  "scheduled_at": "2026-02-24T21:56:05.108Z"
- }'
+	{
+		"priority": 1
+	}'
 ```
 
 **Parameters**
 
-| Key                | Description                                                                                                                                           | Required/Optional | Example values                                                                       | Type    |
-| ------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------- | :---------------- | ------------------------------------------------------------------------------------ | ------- |
-| `id`               | Unique identifier for the dish.                                                                                                                       | Required          | 6820fe8a0443bc50461daa2d                                                             | string  |
-| `name`             | Name of the customer.                                                                                                                                 | Required          | Ann                                                                                  | string  |
-| `table_number`     | Table number for the order. If the order is for take-away, enter `take away`.                                                                         | Required          | 30                                                                                   | string  |
-| `status`           | Current status of the order.<br />Set to `draft `by default.                                                                                          | Optional          | Draft<br />On the way<br />Ready for Assembly<br />Ready for Pickup<br />In Progress | string  |
-| `priority`         | Priority level of the order. Enter a number between 1-5 where lower numbers indicate higher priority.<br />If no value entered, priority is set to 5. | Optional          | 2                                                                                    | integer |
-| `dish_ids`         | IDs of dishes to included in in the order.                                                                                                            | Required          | 6820fe8a0443bc50461da9cd                                                             | string  |
-| `special_requests` | Any specific requests or instructions for the order.                                                                                                  | Optional          | no onions                                                                            | string  |
+| Parameter  | Description                                                                                           | Required/Optional | Example values | Type    |
+| :--------- | :---------------------------------------------------------------------------------------------------- | :---------------- | :------------- | :------ |
+| `priority` | Priority level of the order. Enter a number between 1-5 where lower numbers indicate higher priority. | Required          | 1              | integer |
 
 ### Response
 
-If the request was successful, the server responds with a `201: CREATED`status code with the response body containing the following:
+If the request was successful, the server responds with a `200: OK` status code with the response body containing the following:
 
 **Example response**
 
 ```json
 {
-    "id": "685829ccbb8a907d36f89b62",
+    "id": "6820fe8a0443bc50461daa35",
     "created_at": "2025-06-22T16:05:32.232Z",
     "updated_at": "2025-06-22T16:05:32.232Z",
     "scheduled_at": null,
     "table_number": 18,
     "status": "Received",
-    "priority": 3,
+    "priority": 1,
     "dish_ids": [
         "6820fe8a0443bc50461da98d"
     ],
@@ -336,9 +140,345 @@ If the request was successful, the server responds with a `201: CREATED`status c
 
 Where:
 
-- `id `= the ID (unique identifier) for the order.
+- `scheduled at`= time the order is due.
+- `status` = the stage of the order.
+- `id` = the ID (unique identifier) for the order.
 - `created_at` =  the date and time the order was created.
-- `updated_at` = the date and time the order was last updated.
-- `scheduled_at`= the date and time that the order will be ready.
+- `updated_at` = the date and time the order details were last updated.
+- `table_number`= the table number for the order.
+- `priority`= the priority of the order.
+- `dish_ids`= the dishes for the order.
+- `special_requests` = any special requests from the patron.
 
-# 6. Order confirmation.
+## 3. Initiate order preparation.
+
+### Request
+
+Update the order status.
+
+Method: `PUT`
+
+Base URL: `https://refactored-eureka-x4g44xx55g4f9px7-80.app.github.dev/`
+
+Endpoint: `/orders/{id}`
+
+Where: `{id}`= the id of the order.
+
+**Example request**
+
+```curl curl [expandable]
+--curl -X PUT\
+'https://refactored-eureka-x4g44xx55g4f9px7-80.app.github.dev/orders/6820fe8a0443bc50461daa35' \
+--H 'accept: application/json' \
+--H 'content-type: application/json'
+--data'
+	{
+		"status": "In Progress"
+	}'
+```
+
+**Parameters**
+
+| Parameter | Description                                                                                 | Required/Optional | Example values | Type   |
+| :-------- | :------------------------------------------------------------------------------------------ | :---------------- | :------------- | :----- |
+| `status`  | The preparation stage of the order. Set to "In Progress" to send the order to the stations. | Required          | In Progress    | string |
+
+### Response
+
+If the request was successful, the server responds with a `200: OK` status code with the response body containing the following:
+
+**Example response**
+
+```json
+{
+    "id": "6820fe8a0443bc50461daa35",
+    "created_at": "2025-06-22T16:05:32.232Z",
+    "updated_at": "2025-06-22T16:05:32.232Z",
+    "scheduled_at": null,
+    "table_number": 18,
+    "status": "In Progress",
+    "priority": 1,
+    "dish_ids": [
+        "6820fe8a0443bc50461da98d"
+    ],
+    "special_requests": "No peanuts"
+}
+```
+
+Where:
+
+- `scheduled at`= time the order is due.
+- `status` = the preparation stage of the order.
+- `id` = the ID (unique identifier) for the order.
+- `created_at` =  the date and time the order was created.
+- `updated_at` = the date and time the order details were last updated.
+- `table_number`= the table number for the order.
+- `priority`= the priority of the order.
+- `dish_ids`= the dishes for the order.
+- `special_requests` = any special requests from the patron.
+
+## 4. Prepare the order by station.
+
+### Request
+
+Get dishes for an order.
+
+Method: `GET`
+
+Base URL: `https://refactored-eureka-x4g44xx55g4f9px7-80.app.github.dev/`
+
+Endpoint: `/orders/{id}/dishes?filter=station.eq~{station_name}`
+
+Where:
+
+- `{id}`= the id of the order.
+- `{station_name}` = the name of the station (hot, cold, dessert, drinks)
+
+**Example request**
+
+```curl curl [expandable]
+--curl -X GET\
+'https://refactored-eureka-x4g44xx55g4f9px7-80.app.github.dev/orders/6820fe8a0443bc50461daa35/dishes?filter=station.eq~hot' \
+--H 'accept: application/json' \
+--H 'content-type: application/json'
+```
+
+### Response
+
+If the request was successful, the server responds with a `200: OK` status code with the response body containing the following:
+
+**Example response**
+
+```json
+{
+  "results": [
+    {
+      "id": "6820fe8a0443bc50461da9aa",
+      "created_at": "2024-06-30T09:02:28.948Z",
+      "updated_at": "2025-05-11T10:34:53.577Z",
+      "name": "Spaghetti Carbonara",
+      "description": "Pasta cooked with eggs, cheese, pancetta, and black pepper for a creamy, savory dish.",
+      "category": "Main Course",
+      "price": 799,
+      "preparation_time": 25,
+      "ingredients": [
+        {
+          "ingredient_id": "6820fe8a0443bc50461da95e",
+          "is_essential": true,
+          "_id": "6820fe8a0443bc50461da9ab"
+        },
+        {
+          "ingredient_id": "6820fe8a0443bc50461da95c",
+          "is_essential": true,
+          "_id": "6820fe8a0443bc50461da9ac"
+        }
+      ],
+      "station": "hot"
+    }
+  ],
+  "total_results": 1
+}
+```
+
+Where:
+
+- `id `= the ID (unique identifier) for the dish.
+- `created_at` =  the date and time the dish was first added to stock.
+- `updated_at` = the date and time the dish details were last updated.
+- `name` = name of the dish.
+- `description`: detailed description of the dish.
+- `category` = what course is the dish part of (`appetizer`, `main course`, `dessert`, `drinks)`
+- `preparation_time` = how long to prepare the dish in minutes
+- `price`: price charged to patrons (in dollars).
+- `station`: station where the dish is prepared (`cold`, `hot`, `beverages`).
+- `ingredients` = array of ingredients that are included in the dish:
+  - `ingredient_id` = the ID (unique identifier) for the dish.
+  - `is_essential` = is the ingredient essential for the dish (`true`, `false`).
+
+## 5. Displaying dish ingredients.
+
+### Request
+
+Get ingredients for a dish.
+
+Method: `GET`
+
+Base URL: `https://refactored-eureka-x4g44xx55g4f9px7-80.app.github.dev/`
+
+Endpoint: `/orders/{id}/ingredients`
+
+Where: `{id}`= the id of the order.
+
+**Example request**
+
+```curl curl [expandable]
+--curl -X GET\
+'https://refactored-eureka-x4g44xx55g4f9px7-80.app.github.dev/orders/6820fe8a0443bc50461daa35/ingredients' \
+--H 'accept: application/json' \
+--H 'content-type: application/json'
+```
+
+### Response
+
+If the request was successful, the server responds with a `200: OK` status code with the response body containing the following:
+
+**Example response**
+
+```json
+ {
+  "results": [
+    {
+      "id": "6820fe8a0443bc50461da95c",
+      "created_at": "2024-10-04T23:17:23.629Z",
+      "updated_at": "2025-05-11T12:59:30.933Z",
+      "name": "Zucchini",
+      "in_stock_qty": 11,
+      "price": 899
+    }
+  ],
+  "total_results": 1
+}
+```
+
+Where:
+
+- `id `= the ID (unique identifier) for the dish.
+- `created_at` =  the date and time the dish was first added to stock.
+- `updated_at` = the date and time the dish details were last updated.
+- `name `= name of the ingredient.
+- `price`= cost of the ingredient (in dollars).
+- `in_stock_qty`= how much is in stock.
+
+## 6. Set dishes as "Ready for Assembly".
+
+### Request
+
+Update the order status.
+
+Method: `PUT`
+
+Base URL: `https://refactored-eureka-x4g44xx55g4f9px7-80.app.github.dev/`
+
+Endpoint: `/orders/{id}`
+
+Where: `{id}`= the id of the order.
+
+**Example request**
+
+```curl curl [expandable]
+--curl -X PUT\
+'https://refactored-eureka-x4g44xx55g4f9px7-80.app.github.dev/orders/6820fe8a0443bc50461daa35' \
+--H 'accept: application/json' \
+--H 'content-type: application/json'
+--data'
+	{
+		"status": "Ready for Assembly"
+	}'
+```
+
+**Parameters**
+
+| Parameter | Description                                                                                                                        | Required/Optional | Example values     | Type   |
+| :-------- | :--------------------------------------------------------------------------------------------------------------------------------- | :---------------- | :----------------- | :----- |
+| `status`  | The preparation stage of the order. Set to "Ready for Assembly" to notify the expeditor that the dishes are ready to be assembled. | Required          | Ready for Assembly | string |
+
+### Response
+
+If the request was successful, the server responds with a `200: OK` status code with the response body containing the following:
+
+**Example response**
+
+```json
+{
+    "id": "6820fe8a0443bc50461daa35",
+    "created_at": "2025-06-22T16:05:32.232Z",
+    "updated_at": "2025-06-22T16:05:32.232Z",
+    "scheduled_at": null,
+    "table_number": 18,
+    "status": "Ready for Assembly",
+    "priority": 1,
+    "dish_ids": [
+        "6820fe8a0443bc50461da98d"
+    ],
+    "special_requests": "No peanuts"
+}
+```
+
+Where:
+
+- `scheduled at`= time the order is due.
+- `status` = the preparation stage of the order.
+- `id` = the ID (unique identifier) for the order.
+- `created_at` =  the date and time the order was created.
+- `updated_at` = the date and time the order details were last updated.
+- `table_number`= the table number for the order.
+- `priority`= the priority of the order.
+- `dish_ids`= the dishes for the order.
+- `special_requests` = any special requests from the patron.
+
+## 7. Assemble the order.
+
+### Request
+
+Update the order status.
+
+Method: `PUT`
+
+Base URL: `https://refactored-eureka-x4g44xx55g4f9px7-80.app.github.dev/`
+
+Endpoint: `/orders/{id}`
+
+Where: `{id}`= the id of the order.
+
+**Example request**
+
+```curl curl [expandable]
+--curl -X PUT\
+'https://refactored-eureka-x4g44xx55g4f9px7-80.app.github.dev/orders/6820fe8a0443bc50461daa35' \
+--H 'accept: application/json' \
+--H 'content-type: application/json'
+--data'
+	{
+		"status": "On the Way"
+	}'
+```
+
+**Parameters**
+
+| Parameter | Description                                                                    | Required/Optional | Example values | Type   |
+| :-------- | :----------------------------------------------------------------------------- | :---------------- | :------------- | :----- |
+| `status`  | The preparation stage of the order. Set to "On the Way" to complete the order. | Required          | On the Way     | string |
+
+### Response
+
+If the request was successful, the server responds with a `200: OK` status code with the response body containing the following:
+
+**Example response**
+
+```json
+{
+    "id": "6820fe8a0443bc50461daa35",
+    "created_at": "2025-06-22T16:05:32.232Z",
+    "updated_at": "2025-06-22T16:05:32.232Z",
+    "scheduled_at": null,
+    "table_number": 18,
+    "status": "On the Way",
+    "priority": 1,
+    "dish_ids": [
+        "6820fe8a0443bc50461da98d"
+    ],
+    "special_requests": "No peanuts"
+}
+```
+
+Where:
+
+- `scheduled at`= time the order is due.
+- `status` = the preparation stage of the order.
+- `id` = the ID (unique identifier) for the order.
+- `created_at` =  the date and time the order was created.
+- `updated_at` = the date and time the order details were last updated.
+- `table_number`= the table number for the order.
+- `priority`= the priority of the order.
+- `dish_ids`= the dishes for the order.
+- `special_requests` = any special requests from the patron.

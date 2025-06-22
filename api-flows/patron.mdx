@@ -102,7 +102,7 @@ Where:
   - `price` = the cost of the ingredient.
   - `is_essential` = is the ingredient essential for the dish (`true`, `false`).
 
-# 2. Verify ingredient quantities.
+## 2. Verify ingredient quantities.
 
 ### Request
 
@@ -172,7 +172,7 @@ Where:
 - `name` = the name of the ingredient.
 - `price` = the cost of the ingredient.
 
-# 3. View dish details
+## 3. View dish details.
 
 ### Request
 
@@ -240,8 +240,8 @@ Where:
 - `updated_at` = the date and time the dish details were last updated.
 - `name` = name of the dish.
 - `description`: detailed description of the dish.
-- `category` = what course is the dish part of (`appetizer`, `main course`, `dessert`, `drinks)`
-- `preparation_time` = how long to prepare the dish in minutes
+- `category` = what course is the dish part of (`appetizer`, `main course`, `dessert`, `drinks).`
+- `preparation_time` = how long to prepare the dish in minutes.
 - `price`: price charged to patrons (in dollars).
 - `station`: station where the dish is prepared (`cold`, `hot`, `beverages`).
 - `ingredients` = array of ingredients that are included in the dish:
@@ -251,11 +251,11 @@ Where:
   - `price` = the cost of the ingredient.
   - `is_essential` = is the ingredient essential for the dish (`true`, `false`).
 
-# 4. Add dishes to the order.
+## 4. Add dishes to the order.
 
 Patrons add their chosen dishes to their order in the app. The client app tracks the dishes until the patron places their order.
 
-# 5. Place an order.
+## 5. Place an order.
 
 ### Request
 
@@ -297,7 +297,7 @@ Endpoint: `/order`
 
 **Parameters**
 
-| Key                | Description                                                                                                                                           | Required/Optional | Example values                                                                       | Type    |
+| Parameter          | Description                                                                                                                                           | Required/Optional | Example values                                                                       | Type    |
 | ------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------- | :---------------- | ------------------------------------------------------------------------------------ | ------- |
 | `id`               | Unique identifier for the dish.                                                                                                                       | Required          | 6820fe8a0443bc50461daa2d                                                             | string  |
 | `name`             | Name of the customer.                                                                                                                                 | Required          | Ann                                                                                  | string  |
@@ -337,3 +337,5 @@ Where:
 - `scheduled_at`= the date and time that the order will be ready.
 
 # 6. Order confirmation.
+
+The patron is notified that the order is confirmed. 
