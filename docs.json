@@ -30,9 +30,7 @@
           {
             "group": "API Documentation",
             "pages": [
-              "api-reference/introduction",
-              "api-flows/admin",
-              "api-flows/patron"
+              "api-reference/introduction"
             ]
           },
           
@@ -41,8 +39,8 @@
             "pages": [
               "api-reference/endpoint/get",
               "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
+              "api-reference/endpoint/delete"
+              
             ]
           }
         ]
