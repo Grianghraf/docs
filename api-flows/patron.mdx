@@ -108,11 +108,11 @@ Where:
 
 Get an ingredient's quantities.
 
-Method `GET`
+Method: `GET`
 
-URL `https://refactored-eureka-x4g44xx55g4f9px7-80.app.github.dev/`
+Base URL: `https://refactored-eureka-x4g44xx55g4f9px7-80.app.github.dev/`
 
-Endpoint `/ingredients/{ingredient_id}`
+Endpoint: `/ingredients/{ingredient_id}`
 
 Where: `{ingredient_id}`= the id of the ingredient.
 
@@ -255,11 +255,11 @@ Where:
 
 Patrons add their chosen dishes to their order in the app. The client app tracks the dishes until the patron places their order.
 
-# 5. Create an order.
+# 5. Place an order.
 
 ### Request
 
-Get a dish's details.
+Create an order.
 
 Method: `POST`
 
@@ -304,7 +304,7 @@ Endpoint: `/order`
 | `table_number`     | Table number for the order. If the order is for take-away, enter `take away`.                                                                         | Required          | 30                                                                                   | string  |
 | `status`           | Current status of the order.<br />Set to `draft `by default.                                                                                          | Optional          | Draft<br />On the way<br />Ready for Assembly<br />Ready for Pickup<br />In Progress | string  |
 | `priority`         | Priority level of the order. Enter a number between 1-5 where lower numbers indicate higher priority.<br />If no value entered, priority is set to 5. | Optional          | 2                                                                                    | integer |
-| `dish_ids`         | List of dish IDs included in the order.                                                                                                               | Required          | 6820fe8a0443bc50461da9cd,                                                            | string  |
+| `dish_ids`         | IDs of dishes to included in in the order.                                                                                                            | Required          | 6820fe8a0443bc50461da9cd                                                             | string  |
 | `special_requests` | Any specific requests or instructions for the order.                                                                                                  | Optional          | no onions                                                                            | string  |
 
 ### Response
@@ -332,12 +332,8 @@ If the request was successful, the server responds with a `201: CREATED`status c
 Where:
 
 - `id `= the ID (unique identifier) for the order.
-- `created_at` =  the date and time the order was created. 
+- `created_at` =  the date and time the order was created.
 - `updated_at` = the date and time the order was last updated.
 - `scheduled_at`= the date and time that the order will be ready.
 
-5. Place an order.
-
-When they have finished selecting dishes, patrons can place their order. The client app places the order.
-
-6. Order confirmation.
+# 6. Order confirmation.
