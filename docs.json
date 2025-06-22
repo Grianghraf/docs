@@ -16,9 +16,9 @@
           {
             "group": "API flow for POS",
             "pages": [
-              "admin",
-              "patron",
-              "staff"
+              "api-flows/admin",
+              "api-flows/patron",
+              "api-flows/staff"
             ]
           }
           
