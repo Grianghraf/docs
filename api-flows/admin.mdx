@@ -1,15 +1,16 @@
 ---
 title: "Admin API Flow"
-description: "Admins manage ingredients and dishes."
+description: "Managing ingredients and dishes."
 ---
 
-The following is the flow for admins:
+Admins manange ingredients and dishes:
 
-1. Log in to the administration app.
-   Admins logs in the the administration app to manage ingredients and dishes. Admins must have a user name and password to log into the administration app.
-2. Create ingredients
-   It starts with ingredients. Ingredients are the fundamental components that are used to create dishes. Admins create ingredients and specify their quantity to track inventory levels accurately. This ensures there are sufficient ingredients available to fulfill customer orders.
-3. Create dishes\
+1. Log in to the administration app. 
+2. Admins log in the the administration app to manage ingredients and dishes. Admins must have a user name and password to log into the administration app.
+3. Create ingredients.
+
+   Ingredients are the fundamental components that are used to create dishes. Admins create ingredients and specify their quantity to track inventory levels accurately. This ensures there are sufficient ingredients available to fulfill customer orders.
+4. Create dishes.\
    Dishes are composed of ingredients. Admins create dishes by associating them with the necessary ingredients. 
 
 ## 1. Log into the administration app
@@ -39,8 +40,8 @@ The client sends an HTTP request to authenticate the user's login information (u
 ```
 
 ### Response
-If the request was successful, the server responds with a `201` status code with the response body containing the following:
 
+If the request was successful, the server responds with a `201` status code with the response body containing the following:
 
 ```json
 {
@@ -53,4 +54,5 @@ If the request was successful, the server responds with a `201` status code with
     "user_name": "sarah",
     "_id": "6856d24e7514bdb8dfe5016e",
     "__v": 0
-}```
+}
+```

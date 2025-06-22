@@ -4,11 +4,6 @@
     "title": "Point of Service (POS) API",
     "version": "1.0",
     "description": "...",
-    "contact": {
-      "name": "Course Discord server",
-      "url": "https://discord.gg/dPsnz5u9",
-      "email": "mark.wentowski@docsgeek.io"
-    },
     "license": {
       "name": "Apache 2.0",
       "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
@@ -16,51 +11,17 @@
   },
   "servers": [
     {
-      "url": "{gh-codespaces-server-url}/",
-      "description": "...",
-      "variables": {
-        "gh-codespaces-server-url": {
-          "default": "https://refactored-eureka-x4g44xx55g4f9px7-80.app.github.dev",
-          "description": "..."
-        }
-      }
-    },
-    {
-      "url": "http://localhost:80/",
-      "description": "..."
+      "url": "https://refactored-eureka-x4g44xx55g4f9px7-80.app.github.dev"   
     }
   ],
-  "tags": [
-    {
-      "name": "Orders",
-      "description": "..."
-    },
-    {
-      "name": "Dishes",
-      "description": "..."
-    },
-    {
-      "name": "Ingredients",
-      "description": "..."
-    },
-    {
-      "name": "Users",
-      "description": "..."
-    },
-    {
-      "name": "Auth",
-      "description": "..."
-    }
-  ],
+  
   "paths": {
     "/orders": {
       "post": {
         "summary": "...",
         "operationId": "postOrder",
         "description": "...",
-        "tags": [
-          "Orders"
-        ],
+        
         "security": [
           {
             "AccessToken": []
@@ -133,9 +94,7 @@
         "summary": "...",
         "description": "...",
         "operationId": "getOrderList",
-        "tags": [
-          "Orders"
-        ],
+        
         "parameters": [
           {
             "name": "sort",
