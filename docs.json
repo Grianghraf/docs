@@ -27,13 +27,7 @@
       {
         "tab": "API Reference",
         "groups": [
-          {
-            "group": "API Documentation",
-            "pages": [
-              "api-reference/introduction"
-            ]
-          },
-          
+                   
           {
             "group": "Endpoint Examples",
             "pages": [
