@@ -520,10 +520,10 @@
             "description": "..."
           },
           "401": {
-            "description": "..."
+            "description": "Unauthorized"
           },
           "403": {
-            "description": "..."
+            "description": "Forbidden."
           },
           "404": {
             "description": "...",
