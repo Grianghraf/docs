@@ -61,8 +61,8 @@
               }
             }
           },
-          "409": {
-            "description": "...",
+          "403": {
+            "description": "Forbidden",
             "content": {
               "application/json": {
                 "schema": {
@@ -195,7 +195,7 @@
     },
     "/orders/{id}": {
       "get": {
-        "summary": "...",
+        "summary": "Get an order's details.",
         "description": "...",
         "operationId": "getOrder",
         "tags": [
@@ -224,7 +224,7 @@
         ],
         "responses": {
           "200": {
-            "description": "...",
+            "description": "Successful operation",
             "content": {
               "application/json": {
                 "schema": {
@@ -234,16 +234,16 @@
             }
           },
           "400": {
-            "description": "..."
+            "description": "Bad Request. The request was malformed."
           },
           "401": {
-            "description": "..."
+            "description": "Unauthorized. Authentication is required"
           },
           "403": {
             "description": "..."
           },
           "404": {
-            "description": "...",
+            "description": "Not found. The requested resource does not exist.",
             "content": {
               "application/json": {
                 "schema": {
@@ -253,7 +253,7 @@
             }
           },
           "500": {
-            "description": "...",
+            "description": "Internal server error. An unexpected error occurred on the server.",
             "content": {
               "application/json": {
                 "schema": {
