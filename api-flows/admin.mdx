@@ -3,11 +3,11 @@ title: "Admin API Flow"
 description: "Managing ingredients and dishes."
 ---
 
-Admins manange ingredients and dishes:
+Admins manage ingredients and dishes:
 
 1. Log in to the administration app.
 
-   Admins log in the the administration app to manage ingredients and dishes. Admins must have a user name and password to log into the administration app.
+   Admins log in the administration app to manage ingredients and dishes. Admins must have a user name and password to log into the administration app.
 2. Create ingredients.
 
    Ingredients are the fundamental components that are used to create dishes. Admins create ingredients and specify their quantity to track inventory levels accurately. This ensures there are sufficient ingredients available to fulfill customer orders.
@@ -29,11 +29,11 @@ URL: `https://refactored-eureka-x4g44xx55g4f9px7-80.app.github.dev/`
 **Example request**
 
 ```curl curl
---curl -X POST \
+curl -X POST \
 'https://refactored-eureka-x4g44xx55g4f9px7-80.app.github.dev/auth/token' \
---header 'accept: application/json' \
---header 'content-type: application/json' \
---data '
+-H 'accept: application/json' \
+-H 'content-type: application/json' \
+-d '
 	{
 		"user_name": "username",
 		"password": "password",
@@ -74,11 +74,11 @@ URL: `https://refactored-eureka-x4g44xx55g4f9px7-80.app.github.dev/`
 **Example request**
 
 ```curl curl
---curl -X POST \
+curl -X POST \
 'https://refactored-eureka-x4g44xx55g4f9px7-80.app.github.dev/ingredients' \
---header 'accept: application/json' \
---header 'content-type: application/json' \
---data '
+-H 'accept: application/json' \
+-H 'content-type: application/json' \
+-d '
 	{
 		"name": "onion",
 		"in_stock_qty": 3,
@@ -128,16 +128,16 @@ Method: `POST `
 
 URL: `https://refactored-eureka-x4g44xx55g4f9px7-80.app.github.dev/`
 
-`Endpoint: `/dishes
+Endpoint: `/dishes`
 
 **Example request**
 
 ```curl curl
---curl -X POST \
+curl -X POST \
 'https://refactored-eureka-x4g44xx55g4f9px7-80.app.github.dev/ingredients' \
---header 'accept: application/json' \
---header 'content-type: application/json' \
---data '
+-H 'accept: application/json' \
+-H 'content-type: application/json' \
+-d '
 	{
   		"name": "Cabbage stew",
   		"description": "A traditional cabbage stew.",

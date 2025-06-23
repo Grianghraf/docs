@@ -8,10 +8,10 @@ description: "Managing authentication."
    Users must create an account user name and password to use the protected features in the app.
 2. Log in to the administration app.
 
-   Admins log in the the administration app with their user name and password. The client app requests an access token for the login details.
+   Admins log in to the administration app with their user name and password. The client app requests an access token for the login details.
 3. Refresh the access token.
 
-   If the server returns a 401 Unauthorized status code, the token might have expired. Refresh the token to continue working.
+   If the server returns a `401 Unauthorized` status code, the token might have expired. Refresh the token to continue working.
 
 ## 1. Create an account
 
@@ -23,16 +23,16 @@ Method:`POST `
 
 URL: `https://refactored-eureka-x4g44xx55g4f9px7-80.app.github.dev/`
 
-`Endpoint: `/users
+Endpoint:`/users`
 
 **Example request**
 
 ```curl curl
---curl -X POST \
+curl -X POST \
 'https://refactored-eureka-x4g44xx55g4f9px7-80.app.github.dev/users' \
---header 'accept: application/json' \
---header 'content-type: application/json' \
---data '
+-H 'accept: application/json' \
+-H 'content-type: application/json' \
+-d '
 	{
 		"email": "logan@waystar.com",
 		"password": "royco",
@@ -43,12 +43,12 @@ URL: `https://refactored-eureka-x4g44xx55g4f9px7-80.app.github.dev/`
 
 **Parameters**
 
-| Parameter   | Description                                                                                                             | Required/Optional | Example values                          | Type   |
-| :---------- | :---------------------------------------------------------------------------------------------------------------------- | :---------------- | :-------------------------------------- | :----- |
-| `email`     | Email address for your account.                                                                                         | Required          | [user@email.com](mailto:user@email.com) | string |
-| `password`  | Password for your user account. Use a mixture of letters, numers, and symbols. Passwords must be at least 8 characters. | Required          | password1\$                             | string |
-| `role`      | Your user role. Your role determines what actions you can take.                                                         | Required          | Manager<br />Expeditor<br />Chef        | string |
-| `user_name` | User name for your account.                                                                                             | Required          | Logan Roy                               | string |
+| Parameter   | Description                                                                                                              | Required/Optional | Example values                          | Type   |
+| :---------- | :----------------------------------------------------------------------------------------------------------------------- | :---------------- | :-------------------------------------- | :----- |
+| `email`     | Email address for your account.                                                                                          | Required          | [user@email.com](mailto:user@email.com) | string |
+| `password`  | Password for your user account. Use a mixture of letters, numbers, and symbols. Passwords must be at least 8 characters. | Required          | password1\$                             | string |
+| `role`      | Your user role. Your role determines what actions you can take.                                                          | Required          | Manager<br />Expeditor<br />Chef        | string |
+| `user_name` | User name for your account.                                                                                              | Required          | Logan Roy                               | string |
 
 ### Response
 
@@ -64,9 +64,54 @@ If the request was successful, the server responds with a `201 CREATED` status c
 
 Where:
 
-- `id` = the unique identier for the new user.
-- `created_at = the date and time the user was created.`
-- `user_name = the sign in name for the new user.`
+- `id` = the unique identifier for the new user.
+- `created_at` = the date and time the user was created.
+- `user_name` = the sign in name for the new user.
+
+## 2. Log in to the administration app.
+
+### Request
+
+Authenticate the login information (user name and password) and get an access token.
+
+Method:`POST `
+
+URL: `https://refactored-eureka-x4g44xx55g4f9px7-80.app.github.dev/`
+
+Endpoint: `auth/token`
+
+**Example request**
+
+```curl curl
+curl -X POST \
+'https://refactored-eureka-x4g44xx55g4f9px7-80.app.github.dev/auth/token' \
+-H 'accept: application/json' \
+-H 'content-type: application/json' \
+-d '
+	{
+		"user_name": "username",
+		"password": "password",
+		"grant_type": "password"
+	}'
+```
+
+### Response
+
+If the request was successful, the server responds with a `201 CREATED` status code with the response body containing the following:
+
+```json
+{
+    "created_at": "2025-06-21T15:39:58.709Z",
+    "updated_at": "2025-06-21T15:39:58.709Z",
+    "access_token": "0cfaa476-e1f3-4ff5-9089-b5b1cf50c228",
+    "expires_at": "2025-06-21T16:09:58.709Z",
+    "refresh_token": "483588ca-c363-42a4-a467-c5c0d494f6ff",
+    "token_type": "Bearer",
+    "user_name": "Logan",
+    "_id": "6856d24e7514bdb8dfe5016e",
+    "__v": 0
+}
+```
 
 ## 3. Refresh access token.
 
@@ -83,7 +128,7 @@ Endpoint: `/auth/refresh-token`
 **Example request**
 
 ```curl curl
---curl -X POST \
+curl -X POST \
 'https://refactored-eureka-x4g44xx55g4f9px7-80.app.github.dev/auth/refresh-token' \
 -H 'accept: application/json' \
 -H 'Authorization: Bearer 6856d24e7514bdb8dfe5016e
