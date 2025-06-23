@@ -18,7 +18,7 @@
   "paths": {
     "/orders": {
       "post": {
-        "summary": "...",
+        "summary": "Create an order",
         "operationId": "postOrder",
         "description": "...",
         
@@ -29,7 +29,7 @@
         ],
         "responses": {
           "201": {
-            "description": "...",
+            "description": "CREATED",
             "content": {
               "application/json": {
                 "schema": {
