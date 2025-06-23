@@ -33,8 +33,16 @@
             "pages": [
               "api-reference/endpoint/get",
               "api-reference/endpoint/create",
+              "api-reference/endpoint/get_dishes_id",
+              "api-reference/endpoint/get_dishes_order",
+              "api-reference/endpoint/get_ingredients",
+              "api-reference/endpoint/get_ingredients_dish",
               "api-reference/endpoint/get_orders",
+              "api-reference/endpoint/post_auth",
+              "api-reference/endpoint/post_dishes",
+              "api-reference/endpoint/post_ingredients",
               "api-reference/endpoint/put_orders"
+              
               
             ]
           }
