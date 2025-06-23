@@ -1,0 +1,108 @@
+---
+title: "Authentication API Flow"
+description: "Managing authentication."
+---
+
+1. Create an account.
+
+   Users must create an account user name and password to use the protected features in the app.
+2. Log in to the administration app.
+
+   Admins log in the the administration app with their user name and password. The client app requests an access token for the login details.
+3. Refresh the access token.
+
+   If the server returns a 401 Unauthorized status code, the token might have expired. Refresh the token to continue working.
+
+## 1. Create an account
+
+### **Request**
+
+Create a user account.
+
+Method:`POST `
+
+URL: `https://refactored-eureka-x4g44xx55g4f9px7-80.app.github.dev/`
+
+`Endpoint: `/users
+
+**Example request**
+
+```curl curl
+--curl -X POST \
+'https://refactored-eureka-x4g44xx55g4f9px7-80.app.github.dev/users' \
+--header 'accept: application/json' \
+--header 'content-type: application/json' \
+--data '
+	{
+		"email": "logan@waystar.com",
+		"password": "royco",
+		"role": "manager",
+		"user_name": "logan"
+	}'
+```
+
+**Parameters**
+
+| Parameter   | Description                                                                                                             | Required/Optional | Example values                          | Type   |
+| :---------- | :---------------------------------------------------------------------------------------------------------------------- | :---------------- | :-------------------------------------- | :----- |
+| `email`     | Email address for your account.                                                                                         | Required          | [user@email.com](mailto:user@email.com) | string |
+| `password`  | Password for your user account. Use a mixture of letters, numers, and symbols. Passwords must be at least 8 characters. | Required          | password1\$                             | string |
+| `role`      | Your user role. Your role determines what actions you can take.                                                         | Required          | Manager<br />Expeditor<br />Chef        | string |
+| `user_name` | User name for your account.                                                                                             | Required          | Logan Roy                               | string |
+
+### Response
+
+If the request was successful, the server responds with a `201 CREATED` status code with the response body containing the following:
+
+```json
+{
+    "id": "6858a8aa53f3cadfc49e02fb",
+    "created_at": "2025-06-23T01:06:50.884Z",
+    "user_name": "logan"
+}
+```
+
+Where:
+
+- `id` = the unique identier for the new user.
+- `created_at = the date and time the user was created.`
+- `user_name = the sign in name for the new user.`
+
+## 3. Refresh access token.
+
+### Request
+
+Refresh access token.
+
+Method: `POST `
+
+URL: `https://refactored-eureka-x4g44xx55g4f9px7-80.app.github.dev/`
+
+Endpoint: `/auth/refresh-token`
+
+**Example request**
+
+```curl curl
+--curl -X POST \
+'https://refactored-eureka-x4g44xx55g4f9px7-80.app.github.dev/auth/refresh-token' \
+-H 'accept: application/json' \
+-H 'Authorization: Bearer 6856d24e7514bdb8dfe5016e
+```
+
+### Response
+
+If the request was successful, the server responds with a `201 CREATED` status code with the response body containing the following:
+
+```json
+{
+	"access_token": "1yJhbGciOeJIUzI1Ni5sInR5cCI6IkpXVCJ",
+	"expires_in": 300,
+	"refresh_token": "db0c8d66-e374-4f08-a2c1-923d7c7ed3f5"
+}
+```
+
+Where:
+
+- `access_token` = a new access token.
+- `expires_in` = the number of minutes in which the new token will expire.
+- `refresh_token` = a new refresh token.

@@ -46,17 +46,13 @@
               }
             }
           },
-          "400": {
-            "description": "..."
-          },
+          
           "401": {
-            "description": "..."
+            "description": "Unauthorized"
           },
-          "403": {
-            "description": "..."
-          },
+          
           "404": {
-            "description": "...",
+            "description": "Not Found",
             "content": {
               "application/json": {
                 "schema": {
