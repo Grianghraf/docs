@@ -18,7 +18,8 @@
             "pages": [
               "api-flows/admin",
               "api-flows/patron",
-              "api-flows/staff"
+              "api-flows/staff",
+              "api-flows/auth"
             ]
           }
           
