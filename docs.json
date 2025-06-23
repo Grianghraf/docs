@@ -32,7 +32,9 @@
             "group": "Endpoint Examples",
             "pages": [
               "api-reference/endpoint/get",
-              "api-reference/endpoint/create"
+              "api-reference/endpoint/create",
+              "api-reference/endpoint/get_orders",
+              "api-reference/endpoint/put_orders"
               
             ]
           }
