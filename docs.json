@@ -82,18 +82,20 @@
                   ]
       },
 
-      
       {
-        "tab": "System architecture",
+        "tab": "User flow 2",
         "groups": [
-        {
-          "group":"group",
-          "pages": [
-            "architecuture/architecture" 
-          ]   
-      }   
+          {
+            "group": "Flow for users",
+            "pages": [
+             
+              "api-flows/auth"
+            ]
+          }
+          
         ]
-       }
+      }
+      
  
     ],
     "global": {
