@@ -81,10 +81,20 @@
           
                   ]
       },
+
+      
       {
         "tab": "System architecture",
-        "pages": ["architecuture/architecture" ]        
+        "groups": [
+        {
+          "group":"group",
+          "pages": [
+            "architecuture/architecture" 
+          ]   
+      }   
+        ]
        }
+ 
     ],
     "global": {
       "anchors": [
