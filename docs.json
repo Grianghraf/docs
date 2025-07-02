@@ -11,16 +11,20 @@
   "navigation": {
     "tabs": [
       {
-        "tab": "User flow",
+        "tab": "Flows and architecture",
         "groups": [
           {
-            "group": "Flow by staff member",
+            "group": "Flows",
             "pages": [
               "api-flows/admin",
               "api-flows/patron",
               "api-flows/staff",
               "api-flows/auth"
             ]
+          },
+          {
+            "group": "System architecture",
+            "pages": ["architecture/architecture"]
           }
           
         ]
@@ -80,20 +84,6 @@
           }
           
                   ]
-      },
-
-      {
-        "tab": "System architecture",
-        "groups": [
-          {
-            "group": "System architecture",
-            "pages": [
-             
-              "architecture/architecture"
-            ]
-          }
-          
-        ]
       }
       
  
