@@ -87,8 +87,8 @@
     }
   },
   "logo": {
-    "light": "/logo/Logo_Kitchen3.png",
-    "dark": "/logo/Logo_Kitchen3.png"
+    "light": "/logo/Logo_Kitchen3.svg",
+    "dark": "/logo/Logo_Kitchen3.svg"
   },
   "navbar": {  
   },
