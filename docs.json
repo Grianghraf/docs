@@ -28,39 +28,48 @@
       {
         "tab": "API Reference",
         "groups": [
-                   
+            {
+            "group": "Ingredients",
+            "pages": [
+              "api-reference/endpoint/get_ingredients",
+              "api-reference/endpoint/get_ingredients_dish",
+              "api-reference/endpoint/post_ingredients",
+              "api-reference/endpoint/put_ingredients",
+              "api-reference/endpoint/delete_ingredients"
+            ]
+          },        
           {
             "group": "Dishes",
             "pages": [
-              "api-reference/endpoint/get",
+              "api-reference/endpoint/get_dishes",
               "api-reference/endpoint/get_dishes_id",
               "api-reference/endpoint/get_dishes_order",
               "api-reference/endpoint/post_dishes",
-              "api-reference/endpoint/post_orders",
-              "api-reference/endpoint/get_orders",
-              "api-reference/endpoint/get_orders_id",
-              "api-reference/endpoint/put_orders",
-              "api-reference/endpoint/delete_orders",
-              "api-reference/endpoint/get_ingredients",
-              "api-reference/endpoint/get_ingredients_dish",
-              "api-reference/endpoint/post_ingredients",
-              "api-reference/endpoint/post_auth"          
+              "api-reference/endpoint/put_dishes",
+              "api-reference/endpoint/delete_dishes"
             ]
           },
-          {"group": "Orders",
-            "pages": ["api-reference/endpoint/get",
-              "api-reference/endpoint/get_dishes_id",
-              "api-reference/endpoint/get_dishes_order",
-              "api-reference/endpoint/post_dishes",
+          {
+            "group": "Orders",
+            "pages": [
+              "api-reference/endpoint/get_orders",
+              "api-reference/endpoint/get_orders_id",
+              "api-reference/endpoint/get_orders_dishes",
+              "api-reference/endpoint/post_orders",
+              "api-reference/endpoint/put_orders",
+              "api-reference/endpoint/delete_orders"
+            ]
+          },
+          {
+            "group": "Users",
+            "pages": [
               "api-reference/endpoint/post_orders",
               "api-reference/endpoint/get_orders",
               "api-reference/endpoint/get_orders_id",
-              "api-reference/endpoint/put_orders",
-              "api-reference/endpoint/delete_orders",
-              "api-reference/endpoint/get_ingredients",
-              "api-reference/endpoint/get_ingredients_dish",
-              "api-reference/endpoint/post_ingredients",
-              "api-reference/endpoint/post_auth"]}
+              "api-reference/endpoint/put_users",
+              "api-reference/endpoint/delete_orders"
+            ]
+          }
                   ]
       }
     ],
