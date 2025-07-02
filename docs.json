@@ -43,6 +43,7 @@
             "pages": [
               "api-reference/endpoint/get_dishes",
               "api-reference/endpoint/get_dishes_id",
+              "api-reference/endpoint/get_ingredients_dish",
               "api-reference/endpoint/post_dishes",
               "api-reference/endpoint/put_dishes",
               "api-reference/endpoint/delete_dishes"
