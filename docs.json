@@ -95,7 +95,7 @@
     "primary": {
       "type": "button",
       "label": "Home",
-      "href": "https://dashboard.mintlify.com"
+      "href": "https://oldspeak.mintlify.app"
     }
     
   },
