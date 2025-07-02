@@ -11,7 +11,7 @@ servers:
     description: ...
     variables:
       gh-codespaces-server-url:
-        default: https://<workspace-id>.app.github.dev
+        default: https://refactored-eureka-x4g44xx55g4f9px7-8080.app.github.dev/
         description: ...
   - url: http://localhost:80/
     description: ...
@@ -57,6 +57,10 @@ paths:
               description: ...
         '400':
           description: Bad request. The request was malformed or invalid. Ensure all required fields are provided and properly formatted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem400'
         '401':
           description: Authentication failed. The client must provide a valid access token in the request.
         '403':
@@ -66,7 +70,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Problem'
+                $ref: '#/components/schemas/Problem404'
         '409':
           description: Conflict. The update could not be applied due to conflicting changes.
           content:
@@ -163,8 +167,16 @@ paths:
                     example: 20
         '400':
           description: Bad request. The request was malformed or invalid. Ensure all required fields are provided and properly formatted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem400'
         '401':
-          description: ...
+          description: Authentication failed. The client must provide a valid access token in the request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem401'
         '403':
           description: Forbidden. Request failed due to insufficient permissions.
         '500':
@@ -212,8 +224,16 @@ paths:
                 $ref: '#/components/schemas/Order'
         '400':
           description: Bad request. The request was malformed or invalid. Ensure all required fields are provided and properly formatted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem400'
         '401':
           description: Authentication failed. The client must provide a valid access token in the request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem401'
         '403':
           description: Forbidden. Request failed due to insufficient permissions.
         '404':
@@ -275,8 +295,16 @@ paths:
           description: Resource updated. No content to return.
         '400':
           description: Bad request. The request was malformed or invalid. Ensure all required fields are provided and properly formatted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem400'
         '401':
           description: Authentication failed. The client must provide a valid access token in the request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem401'
         '403':
           description: Forbidden. Request failed due to insufficient permissions.
         '404':
@@ -326,8 +354,16 @@ paths:
           description: Resource updated. No content to return. 
         '400':
           description: Bad request. The request was malformed or invalid. Ensure all required fields are provided and properly formatted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem400'
         '401':
           description: Authentication failed. The client must provide a valid access token in the request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem401'
         '403':
           description: Forbidden. Request failed due to insufficient permissions.
         '404':
@@ -434,8 +470,16 @@ paths:
                     example: 1
         '400':
           description: Bad request. The request was malformed or invalid. Ensure all required fields are provided and properly formatted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem400'
         '401':
           description: Authentication failed. The client must provide a valid access token in the request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem401'
         '403':
           description: Forbidden. Request failed due to insufficient permissions.
         '404':
@@ -487,8 +531,16 @@ paths:
               description: ...
         '400':
           description: Bad request. The request was malformed or invalid. Ensure all required fields are provided and properly formatted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem400'
         '401':
           description: Authentication failed. The client must provide a valid access token in the request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem401'
         '403':
           description: Forbidden. Request failed due to insufficient permissions.
         '404':
@@ -592,8 +644,16 @@ paths:
                     description: Number of resources returned in the response.
         '400':
           description: Bad request. The request was malformed or invalid. Ensure all required fields are provided and properly formatted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem400'
         '401':
           description: Authentication failed. The client must provide a valid access token in the request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem401'
         '403':
           description: Forbidden. The server understood the request but refused to process it.
         '500':
@@ -642,8 +702,16 @@ paths:
                 $ref: '#/components/schemas/Dish'
         '400':
           description: Bad request. The request was malformed or invalid. Ensure all required fields are provided and properly formatted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem400'
         '401':
           description: Authentication failed. The client must provide a valid access token in the request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem401'
         '403':
           description: Forbidden. Request failed due to insufficient permissions.
         '404':
@@ -701,8 +769,16 @@ paths:
           description: Resource updated. No content to return.
         '400':
           description: Bad request. The request was malformed or invalid. Ensure all required fields are provided and properly formatted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem400'
         '401':
           description: Authentication failed. The client must provide a valid access token in the request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem401'
         '403':
           description: Forbidden. Request failed due to insufficient permissions.
         '404':
@@ -751,8 +827,16 @@ paths:
           description: Resource updated. No content to return.
         '400':
           description: Bad request. The request was malformed or invalid. Ensure all required fields are provided and properly formatted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem400'
         '401':
           description: Authentication failed. The client must provide a valid access token in the request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem401'
         '403':
           description: Forbidden. Request failed due to insufficient permissions.
         '404':
@@ -858,8 +942,16 @@ paths:
                     example: 1
         '400':
           description: Bad request. The request was malformed or invalid. Ensure all required fields are provided and properly formatted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem400'
         '401':
           description: Authentication failed. The client must provide a valid access token in the request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem401'
         '403':
           description: Forbidden. Request failed due to insufficient permissions.
         '404':
@@ -905,8 +997,16 @@ paths:
               description: ...
         '400':
           description: Bad request. The request was malformed or invalid. Ensure all required fields are provided and properly formatted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem400'
         '401':
           description: Authentication failed. The client must provide a valid access token in the request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem401'
         '403':
           description: Forbidden. Request failed due to insufficient permissions.
         '409':
@@ -1000,8 +1100,16 @@ paths:
                     example: 1
         '400':
           description: Bad request. The request was malformed or invalid. Ensure all required fields are provided and properly formatted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem400'
         '401':
           description: Authentication failed. The client must provide a valid access token in the request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem401'
         '403':
           description: Forbidden. Request failed due to insufficient permissions.
         '500':
@@ -1049,8 +1157,16 @@ paths:
                 $ref: '#/components/schemas/Ingredient'
         '400':
           description: Bad request. The request was malformed or invalid. Ensure all required fields are provided and properly formatted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem400'
         '401':
-          description: Authentication failed. The client must provide a valid access token in the request. 
+          description: Authentication failed. The client must provide a valid access token in the request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem401' 
         '403':
           description: Forbidden. Request failed due to insufficient permissions.
         '404':
@@ -1102,8 +1218,16 @@ paths:
           description: Resource updated. No content to return.
         '400':
           description: Bad request. The request was malformed or invalid. Ensure all required fields are provided and properly formatted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem400'
         '401':
           description: Authentication failed. The client must provide a valid access token in the request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem401'
         '403':
           description: Forbidden. The client does not have the necessary permissions to update the order.
         '404':
@@ -1153,8 +1277,16 @@ paths:
           description: Resource updated. No content to return.
         '400':
           description: Bad request. The request was malformed or invalid. Ensure all required fields are provided and properly formatted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem400'
         '401':
           description: Authentication failed. The client must provide a valid access token in the request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem401'
         '403':
           description: Forbidden. Request failed due to insufficient permissions.
         '404':
@@ -1200,6 +1332,10 @@ paths:
               description: ...
         '400':
           description: Bad request. The request was malformed or invalid. Ensure all required fields are provided and properly formatted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem400'
         '409':
           description: Conflict. The update could not be applied due to conflicting changes.
           content:
@@ -1293,8 +1429,16 @@ paths:
                     example: 20
         '400':
           description: Bad request. The request was malformed or invalid. Ensure all required fields are provided and properly formatted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem400'
         '401':
           description: Authentication failed. The client must provide a valid access token in the request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem401'
         '403':
           description: ...
         '500':
@@ -1342,8 +1486,16 @@ paths:
                 $ref: '#/components/schemas/User'
         '400':
           description: Bad request. The request was malformed or invalid. Ensure all required fields are provided and properly formatted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem400'
         '401':
           description: Authentication failed. The client must provide a valid access token in the request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem401'
         '403':
           description: Forbidden. Request failed due to insufficient permissions.
         '404':
@@ -1400,8 +1552,16 @@ paths:
           description: Resource updated. No content to return.
         '400':
           description: Bad request. The request was malformed or invalid. Ensure all required fields are provided and properly formatted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem400'
         '401':
           description: Authentication failed. The client must provide a valid access token in the request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem401'
         '403':
           description: Forbidden. Request failed due to insufficient permissions.
         '404':
@@ -1449,8 +1609,16 @@ paths:
           description: Resource updated. No content to return.
         '400':
           description: Bad request. The request was malformed or invalid. Ensure all required fields are provided and properly formatted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem400'
         '401':
           description: Authentication failed. The client must provide a valid access token in the request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem401'
         '403':
           description: Forbidden. Request failed due to insufficient permissions.
         '404':
@@ -1494,7 +1662,11 @@ paths:
                 type: string
               description: ...
         '400':
-          description: Bad request. The request was malformed or invalid.
+          description: Bad request. The request was malformed or invalid. Ensure all required fields are provided and properly formatted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem400'
         '409':
           description: Conflict error. The update could not be applied due to conflicting changes.
           content:
@@ -1548,8 +1720,11 @@ paths:
               description: ...
         '400':
           description: Bad request. The request was malformed or invalid. Ensure all required fields are provided and properly formatted.
-        '401':
-          description: Authentication failed. The client must provide a valid access token in the request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem400'
+          
         '403':
           description: Forbidden. Request failed due to insufficient permissions.
         '404':
@@ -1997,7 +2172,35 @@ components:
           example: Resource not found. Ensure the ID is correct.
       required:
         - title
-        - detail    
+        - detail
+    Problem400:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Human-readable error description.
+          example: Bad request. 
+        detail:
+          type: string
+          description: Human-readable error details.
+          example: The request was malformed or invalid. Ensure all required fields are provided and properly formatted.
+      required:
+        - title
+        - detail
+    Problem401:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Human-readable error description.
+          example: Unauthorized. 
+        detail:
+          type: string
+          description: Human-readable error details.
+          example: Authentication is required for this operation or the credentials provided are incorrect. 
+      required:
+        - title
+        - detail
     Problem409:
       type: object
       properties:
