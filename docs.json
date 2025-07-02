@@ -63,11 +63,18 @@
           {
             "group": "Users",
             "pages": [
-              "api-reference/endpoint/post_orders",
-              "api-reference/endpoint/get_orders",
-              "api-reference/endpoint/get_orders_id",
+              "api-reference/endpoint/get_users",
+              "api-reference/endpoint/get_users_id",
+              "api-reference/endpoint/post_users",
               "api-reference/endpoint/put_users",
-              "api-reference/endpoint/delete_orders"
+              "api-reference/endpoint/delete_users"
+            ]
+          },
+          {
+            "group": "Authentication",
+            "pages": [
+              "api-reference/endpoint/post_auth",
+              "api-reference/endpoint/post_auth_token"
             ]
           }
                   ]
