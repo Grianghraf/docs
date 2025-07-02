@@ -11,7 +11,7 @@
   "navigation": {
     "tabs": [
       {
-        "tab": "API Flow",
+        "tab": "User flow",
         "groups": [
           {
             "group": "API flow for POS",
@@ -36,8 +36,9 @@
               "api-reference/endpoint/get_dishes_id",
               "api-reference/endpoint/get_dishes_order",
               "api-reference/endpoint/post_dishes",
-              "api-reference/endpoint/create",
+              "api-reference/endpoint/post_orders",
               "api-reference/endpoint/get_orders",
+              "api-reference/endpoint/get_orders_id",
               "api-reference/endpoint/put_orders",
               "api-reference/endpoint/get_ingredients",
               "api-reference/endpoint/get_ingredients_dish",
