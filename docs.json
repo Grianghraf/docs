@@ -83,10 +83,10 @@
       },
 
       {
-        "tab": "User flow 2",
+        "tab": "System architecture",
         "groups": [
           {
-            "group": "Flow for users",
+            "group": "",
             "pages": [
              
               "architecture/architecture"
