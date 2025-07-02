@@ -32,7 +32,7 @@
             "group": "Ingredients",
             "pages": [
               "api-reference/endpoint/get_ingredients",
-              "api-reference/endpoint/get_ingredients_dish",
+              "api-reference/endpoint/get_ingredient_details",
               "api-reference/endpoint/post_ingredients",
               "api-reference/endpoint/put_ingredients",
               "api-reference/endpoint/delete_ingredients"
