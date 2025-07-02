@@ -1,2691 +1,2093 @@
-{
-  "openapi": "3.0.3",
-  "info": {
-    "title": "Point of Service (POS) API",
-    "version": "1.0",
-    "description": "...",
-    "license": {
-      "name": "Apache 2.0",
-      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
-    }
-  },
-  "servers": [
-    {
-      "url": "https://refactored-eureka-x4g44xx55g4f9px7-80.app.github.dev"   
-    }
-  ],
-  
-  "paths": {
-    "/orders": {
-      "post": {
-        "summary": "Create an order",
-        "operationId": "postOrder",
-        "description": "...",
+openapi: 3.0.3
+info:
+  title: Point of Service (POS) API
+  version: '1.0'
+  description: ...
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+servers:
+  - url: 'https://refactored-eureka-x4g44xx55g4f9px7-8080.app.github.dev/'
+    description: ...
+    variables:
+      gh-codespaces-server-url:
+        default: https://<workspace-id>.app.github.dev
+        description: ...
+  - url: http://localhost:80/
+    description: ...
+tags:
+  - name: Orders
+    description: ...
+  - name: Dishes
+    description: ...
+  - name: Ingredients
+    description: ...
+  - name: Users
+    description: ...
+  - name: Auth
+    description: ...
+paths:
+  /orders:
+    post:
+      summary: Create an order.
+      operationId: postOrder
+      description: |
+        This operation creates an order using the customer name, table number, list of dish IDs for the order, special requests, and optionally, a scheduled time. 
         
-        "security": [
-          {
-            "AccessToken": []
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "CREATED",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Order"
-                }
-              }
-            },
-            "headers": {
-              "Location": {
-                "schema": {
-                  "type": "string"
-                },
-                "description": "..."
-              }
-            }
-          },
-          
-          "401": {
-            "description": "Unauthorized"
-          },
-          
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "...",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
-          }
-        },
-        "requestBody": {
-          "$ref": "#/components/requestBodies/CreateOrderRequest"
-        }
-      },
-      "get": {
-        "summary": "...",
-        "description": "...",
-        "operationId": "getOrderList",
+        Creating an order requires an access token to be passed in the header.
+
+        The customer name, dish IDs, table number and special requests are required fields.
         
-        "parameters": [
-          {
-            "name": "sort",
-            "in": "query",
-            "description": "...",
-            "schema": {
-              "type": "string"
-            },
-            "example": "priority"
-          },
-          {
-            "name": "order",
-            "in": "query",
-            "description": "...",
-            "schema": {
-              "type": "string"
-            },
-            "example": "asc"
-          },
-          {
-            "name": "fields",
-            "in": "query",
-            "description": "...",
-            "schema": {
-              "type": "string"
-            },
-            "example": "table_number|status|priority"
-          },
-          {
-            "name": "filter",
-            "in": "query",
-            "description": "...",
-            "schema": {
-              "type": "string",
-              "example": "table_number.lt~5|status.eq~On the Way"
-            }
-          },
-          {
-            "name": "limit",
-            "in": "query",
-            "description": "...",
-            "schema": {
-              "type": "integer",
-              "maximum": 30
-            },
-            "example": 10
-          },
-          {
-            "name": "offset",
-            "in": "query",
-            "description": "...",
-            "schema": {
-              "type": "integer",
-              "example": 0
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "...",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "results": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/Order"
-                      }
-                    },
-                    "total_results": {
-                      "type": "integer",
-                      "example": 20
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "..."
-          },
-          "401": {
-            "description": "..."
-          },
-          "403": {
-            "description": "..."
-          },
-          "500": {
-            "description": "...",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/orders/{id}": {
-      "get": {
-        "summary": "Get an order's details.",
-        "description": "...",
-        "operationId": "getOrder",
-        "tags": [
-          "Orders"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "example": "66294b2a4475a41f3e709bcc",
-            "description": "..."
-          },
-          {
-            "name": "fields",
-            "in": "query",
-            "description": "...",
-            "schema": {
-              "type": "string"
-            },
-            "example": "table_number|status|priority"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Order"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request. The request was malformed."
-          },
-          "401": {
-            "description": "Unauthorized. Authentication is required"
-          },
-          "403": {
-            "description": "..."
-          },
-          "404": {
-            "description": "Not found. The requested resource does not exist.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal server error. An unexpected error occurred on the server.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
-          }
-        }
-      },
-      "put": {
-        "summary": "...",
-        "description": "...",
-        "operationId": "putOrder",
-        "tags": [
-          "Orders"
-        ],
-        "security": [
-          {
-            "AccessToken": []
-          }
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "example": "66294b2a4475a41f3e709bcd",
-            "description": "..."
-          }
-        ],
-        "requestBody": {
-          "$ref": "#/components/requestBodies/UpdateOrderRequest"
-        },
-        "responses": {
-          "200": {
-            "description": "...",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "results": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/Order"
-                      }
-                    },
-                    "total_results": {
-                      "type": "integer",
-                      "example": 1
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "204": {
-            "description": "..."
-          },
-          "400": {
-            "description": "..."
-          },
-          "401": {
-            "description": "..."
-          },
-          "403": {
-            "description": "..."
-          },
-          "404": {
-            "description": "...",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
-          },
-          "409": {
-            "description": "...",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "...",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "summary": "...",
-        "description": "...",
-        "operationId": "deleteOrder",
-        "tags": [
-          "Orders"
-        ],
-        "security": [
-          {
-            "AccessToken": []
-          }
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "example": "66294b2a4475a41f3e709bca",
-            "description": "..."
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "..."
-          },
-          "400": {
-            "description": "..."
-          },
-          "401": {
-            "description": "..."
-          },
-          "403": {
-            "description": "..."
-          },
-          "404": {
-            "description": "...",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "...",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/orders/{id}/dishes": {
-      "get": {
-        "summary": "...",
-        "description": "...",
-        "operationId": "getOrderDishes",
-        "tags": [
-          "Orders"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "example": "66294b2a4475a41f3e709bcb",
-            "description": "..."
-          },
-          {
-            "name": "sort",
-            "in": "query",
-            "description": "...",
-            "schema": {
-              "type": "string"
-            },
-            "example": "station"
-          },
-          {
-            "name": "order",
-            "in": "query",
-            "description": "...",
-            "schema": {
-              "type": "string"
-            },
-            "example": "asc"
-          },
-          {
-            "name": "fields",
-            "in": "query",
-            "description": "...",
-            "schema": {
-              "type": "string"
-            },
-            "example": "name|station|ingredients"
-          },
-          {
-            "name": "filter",
-            "in": "query",
-            "description": "...",
-            "schema": {
-              "type": "string",
-              "example": "created_at.gt~2024-05-07|station.eq~hot"
-            }
-          },
-          {
-            "name": "limit",
-            "in": "query",
-            "description": "...",
-            "schema": {
-              "type": "integer",
-              "maximum": 30
-            },
-            "example": 10
-          },
-          {
-            "name": "offset",
-            "in": "query",
-            "description": "...",
-            "schema": {
-              "type": "integer",
-              "example": 0
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "...",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "results": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/Dish"
-                      }
-                    },
-                    "total_results": {
-                      "type": "integer",
-                      "example": 1
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "..."
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden."
-          },
-          "404": {
-            "description": "...",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "...",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/dishes": {
-      "post": {
-        "summary": "...",
-        "tags": [
-          "Dishes"
-        ],
-        "operationId": "postDishes",
-        "security": [
-          {
-            "AccessToken": []
-          }
-        ],
-        "description": "...",
-        "requestBody": {
-          "$ref": "#/components/requestBodies/CreateDishRequest"
-        },
-        "responses": {
-          "201": {
-            "description": "...",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Dish"
-                }
-              }
-            },
-            "headers": {
-              "Location": {
-                "schema": {
-                  "type": "string"
-                },
-                "description": "..."
-              }
-            }
-          },
-          "400": {
-            "description": "..."
-          },
-          "401": {
-            "description": "..."
-          },
-          "403": {
-            "description": "..."
-          },
-          "404": {
-            "description": "...",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
-          },
-          "409": {
-            "description": "...",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "...",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
-          }
-        }
-      },
-      "get": {
-        "summary": "...",
-        "description": "...",
-        "operationId": "getDishList",
-        "tags": [
-          "Dishes"
-        ],
-        "parameters": [
-          {
-            "name": "sort",
-            "in": "query",
-            "description": "...",
-            "schema": {
-              "type": "string"
-            },
-            "example": "name"
-          },
-          {
-            "name": "order",
-            "in": "query",
-            "description": "...",
-            "schema": {
-              "type": "string"
-            },
-            "example": "asc"
-          },
-          {
-            "name": "fields",
-            "in": "query",
-            "description": "...",
-            "schema": {
-              "type": "string"
-            },
-            "example": "name|ingredients|station"
-          },
-          {
-            "name": "filter",
-            "in": "query",
-            "description": "...",
-            "schema": {
-              "type": "string",
-              "example": "created_at.gt~2024-05-07|price.lte~19.99"
-            }
-          },
-          {
-            "name": "limit",
-            "in": "query",
-            "description": "...",
-            "schema": {
-              "type": "integer",
-              "maximum": 30
-            },
-            "example": 10
-          },
-          {
-            "name": "offset",
-            "in": "query",
-            "description": "...",
-            "schema": {
-              "type": "integer",
-              "example": 0
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "...",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "results": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/Dish"
-                      }
-                    },
-                    "total_results": {
-                      "type": "integer",
-                      "example": 20,
-                      "description": "..."
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "..."
-          },
-          "401": {
-            "description": "..."
-          },
-          "403": {
-            "description": "..."
-          },
-          "500": {
-            "description": "...",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/dishes/{id}": {
-      "get": {
-        "summary": "...",
-        "description": "...",
-        "operationId": "getDish",
-        "tags": [
-          "Dishes"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "schema": {
-              "type": "string"
-            },
-            "required": true,
-            "example": "66294b2a4475a41f3e709bd1",
-            "description": "..."
-          },
-          {
-            "name": "fields",
-            "in": "query",
-            "description": "...",
-            "schema": {
-              "type": "string"
-            },
-            "example": "name|price|station|ingredients"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "...",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Dish"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "..."
-          },
-          "401": {
-            "description": "..."
-          },
-          "403": {
-            "description": "..."
-          },
-          "404": {
-            "description": "...",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "...",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
-          }
-        }
-      },
-      "put": {
-        "summary": "...",
-        "operationId": "putDish",
-        "tags": [
-          "Dishes"
-        ],
-        "security": [
-          {
-            "AccessToken": []
-          }
-        ],
-        "description": "...",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "example": "66294b2a4475a41f3e709bce",
-            "description": "..."
-          }
-        ],
-        "requestBody": {
-          "$ref": "#/components/requestBodies/UpdateDishRequest"
-        },
-        "responses": {
-          "200": {
-            "description": "...",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Dish"
-                }
-              }
-            },
-            "headers": {
-              "Location": {
-                "schema": {
-                  "type": "string"
-                },
-                "description": "..."
-              }
-            }
-          },
-          "204": {
-            "description": "..."
-          },
-          "400": {
-            "description": "..."
-          },
-          "401": {
-            "description": "..."
-          },
-          "403": {
-            "description": "..."
-          },
-          "404": {
-            "description": "...",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
-          },
-          "409": {
-            "description": "...",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "...",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "summary": "...",
-        "description": "...",
-        "operationId": "deleteDish",
-        "tags": [
-          "Dishes"
-        ],
-        "security": [
-          {
-            "AccessToken": []
-          }
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "example": "66294b2a4475a41f3e709bd0",
-            "description": "..."
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "..."
-          },
-          "400": {
-            "description": "..."
-          },
-          "401": {
-            "description": "..."
-          },
-          "403": {
-            "description": "..."
-          },
-          "404": {
-            "description": "...",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "...",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/dishes/{id}/ingredients": {
-      "get": {
-        "summary": "...",
-        "description": "...",
-        "operationId": "getDishIngredients",
-        "tags": [
-          "Dishes"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "example": "66294b2a4475a41f3e709bd2",
-            "description": "..."
-          },
-          {
-            "name": "sort",
-            "in": "query",
-            "description": "...",
-            "schema": {
-              "type": "string"
-            },
-            "example": "name"
-          },
-          {
-            "name": "order",
-            "in": "query",
-            "description": "...",
-            "schema": {
-              "type": "string"
-            },
-            "example": "asc"
-          },
-          {
-            "name": "fields",
-            "in": "query",
-            "description": "...",
-            "schema": {
-              "type": "string"
-            },
-            "example": "name|in_stock_qty"
-          },
-          {
-            "name": "filter",
-            "in": "query",
-            "description": "...",
-            "schema": {
-              "type": "string",
-              "example": "created_at.gt~2024-05-07|in_stock_qty.gt~3"
-            }
-          },
-          {
-            "name": "limit",
-            "in": "query",
-            "description": "...",
-            "schema": {
-              "type": "integer",
-              "maximum": 30
-            },
-            "example": 10
-          },
-          {
-            "name": "offset",
-            "in": "query",
-            "description": "...",
-            "schema": {
-              "type": "integer",
-              "example": 0
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "...",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "results": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/Ingredient"
-                      }
-                    },
-                    "total_results": {
-                      "type": "integer",
-                      "example": 1
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "..."
-          },
-          "401": {
-            "description": "..."
-          },
-          "403": {
-            "description": "..."
-          },
-          "404": {
-            "description": "...",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "...",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/ingredients": {
-      "post": {
-        "summary": "...",
-        "description": "...",
-        "operationId": "postIngredient",
-        "tags": [
-          "Ingredients"
-        ],
-        "security": [
-          {
-            "AccessToken": []
-          }
-        ],
-        "requestBody": {
-          "$ref": "#/components/requestBodies/CreateIngredientRequest"
-        },
-        "responses": {
-          "201": {
-            "description": "...",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Ingredient"
-                }
-              }
-            },
-            "headers": {
-              "Location": {
-                "schema": {
-                  "type": "string"
-                },
-                "description": "..."
-              }
-            }
-          },
-          "400": {
-            "description": "..."
-          },
-          "401": {
-            "description": "..."
-          },
-          "403": {
-            "description": "..."
-          },
-          "409": {
-            "description": "...",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "...",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
-          }
-        }
-      },
-      "get": {
-        "summary": "...",
-        "description": "...",
-        "operationId": "getIngredientList",
-        "tags": [
-          "Ingredients"
-        ],
-        "parameters": [
-          {
-            "name": "sort",
-            "in": "query",
-            "description": "...",
-            "schema": {
-              "type": "string"
-            },
-            "example": "name"
-          },
-          {
-            "name": "order",
-            "in": "query",
-            "description": "...",
-            "schema": {
-              "type": "string"
-            },
-            "example": "asc"
-          },
-          {
-            "name": "fields",
-            "in": "query",
-            "description": "...",
-            "schema": {
-              "type": "string"
-            },
-            "example": "name|in_stock_qty"
-          },
-          {
-            "name": "filter",
-            "in": "query",
-            "description": "...",
-            "schema": {
-              "type": "string",
-              "example": "created_at.gt~2024-05-07|in_stock_qty.lt~5"
-            }
-          },
-          {
-            "name": "limit",
-            "in": "query",
-            "description": "...",
-            "schema": {
-              "type": "integer",
-              "maximum": 30
-            },
-            "example": 10
-          },
-          {
-            "name": "offset",
-            "in": "query",
-            "description": "...",
-            "schema": {
-              "type": "integer",
-              "example": 0
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "...",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "results": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/Ingredient"
-                      }
-                    },
-                    "total_results": {
-                      "type": "integer",
-                      "example": 1
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "..."
-          },
-          "401": {
-            "description": "..."
-          },
-          "403": {
-            "description": "..."
-          },
-          "500": {
-            "description": "...",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/ingredients/{id}": {
-      "get": {
-        "summary": "...",
-        "description": "...",
-        "operationId": "getIngredient",
-        "tags": [
-          "Ingredients"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "schema": {
-              "type": "string"
-            },
-            "required": true,
-            "example": "614d706b67c122001f35cc47",
-            "description": "..."
-          },
-          {
-            "name": "fields",
-            "in": "query",
-            "description": "...",
-            "schema": {
-              "type": "string"
-            },
-            "example": "in_stock_qty|name"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "...",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Ingredient"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "..."
-          },
-          "401": {
-            "description": "..."
-          },
-          "403": {
-            "description": "..."
-          },
-          "404": {
-            "description": "...",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "...",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
-          }
-        }
-      },
-      "put": {
-        "summary": "...",
-        "description": "...",
-        "operationId": "putIngredient",
-        "tags": [
-          "Ingredients"
-        ],
-        "security": [
-          {
-            "AccessToken": []
-          }
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "example": "617d2e09ec42e0001f41bf84",
-            "description": "..."
-          }
-        ],
-        "requestBody": {
-          "$ref": "#/components/requestBodies/UpdateIngredientRequest"
-        },
-        "responses": {
-          "200": {
-            "description": "..."
-          },
-          "204": {
-            "description": "..."
-          },
-          "400": {
-            "description": "..."
-          },
-          "401": {
-            "description": "..."
-          },
-          "403": {
-            "description": "..."
-          },
-          "404": {
-            "description": "...",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
-          },
-          "409": {
-            "description": "...",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "...",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "summary": "...",
-        "description": "...",
-        "operationId": "deleteIngredient",
-        "tags": [
-          "Ingredients"
-        ],
-        "security": [
-          {
-            "AccessToken": []
-          }
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "example": "61c8c34bb02368001f8f0812",
-            "description": "..."
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "..."
-          },
-          "400": {
-            "description": "..."
-          },
-          "401": {
-            "description": "..."
-          },
-          "403": {
-            "description": "..."
-          },
-          "404": {
-            "description": "...",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "...",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/users": {
-      "post": {
-        "summary": "...",
-        "description": "...",
-        "operationId": "postUser",
-        "tags": [
-          "Users"
-        ],
-        "requestBody": {
-          "$ref": "#/components/requestBodies/CreateUserRequest"
-        },
-        "responses": {
-          "201": {
-            "description": "...",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
-              }
-            },
-            "headers": {
-              "Location": {
-                "schema": {
-                  "type": "string"
-                },
-                "description": "..."
-              }
-            }
-          },
-          "400": {
-            "description": "..."
-          },
-          "409": {
-            "description": "...",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "...",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
-          }
-        },
-        "security": []
-      },
-      "get": {
-        "summary": "...",
-        "description": "...",
-        "operationId": "getAllUsers",
-        "tags": [
-          "Users"
-        ],
-        "parameters": [
-          {
-            "name": "sort",
-            "in": "query",
-            "description": "...",
-            "schema": {
-              "type": "string"
-            },
-            "example": "user_name"
-          },
-          {
-            "name": "order",
-            "in": "query",
-            "description": "...",
-            "schema": {
-              "type": "string"
-            },
-            "example": "asc"
-          },
-          {
-            "name": "fields",
-            "in": "query",
-            "description": "...",
-            "schema": {
-              "type": "string"
-            },
-            "example": "user_name|email|role"
-          },
-          {
-            "name": "filter",
-            "in": "query",
-            "description": "...",
-            "schema": {
-              "type": "string",
-              "example": "created_at.gt~2024-05-07|user_name.eq~apiuser01"
-            }
-          },
-          {
-            "name": "limit",
-            "in": "query",
-            "description": "...",
-            "schema": {
-              "type": "integer",
-              "maximum": 30
-            },
-            "example": 10
-          },
-          {
-            "name": "offset",
-            "in": "query",
-            "description": "...",
-            "schema": {
-              "type": "integer",
-              "example": 0
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "...",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "results": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/User"
-                      }
-                    },
-                    "total_results": {
-                      "type": "integer",
-                      "example": 20
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "..."
-          },
-          "401": {
-            "description": "..."
-          },
-          "403": {
-            "description": "..."
-          },
-          "500": {
-            "description": "...",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/users/{id}": {
-      "get": {
-        "summary": "...",
-        "description": "...",
-        "operationId": "getUser",
-        "tags": [
-          "Users"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "example": "66294b2a4475a41f3e709bc9",
-            "description": "..."
-          },
-          {
-            "name": "fields",
-            "in": "query",
-            "description": "...",
-            "schema": {
-              "type": "string"
-            },
-            "example": "user_name|role"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "...",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "..."
-          },
-          "401": {
-            "description": "..."
-          },
-          "403": {
-            "description": "..."
-          },
-          "404": {
-            "description": "...",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "...",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
-          }
-        }
-      },
-      "put": {
-        "summary": "...",
-        "description": "...",
-        "operationId": "putUser",
-        "tags": [
-          "Users"
-        ],
-        "security": [
-          {
-            "AccessToken": []
-          }
-        ],
-        "requestBody": {
-          "$ref": "#/components/requestBodies/UpdateUserRequest"
-        },
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "example": "66294b2a4475a41f3e709bc9",
-            "description": "..."
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "...",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
-              }
-            },
-            "headers": {
-              "Location": {
-                "schema": {
-                  "type": "string"
-                },
-                "description": "..."
-              }
-            }
-          },
-          "204": {
-            "description": "..."
-          },
-          "400": {
-            "description": "..."
-          },
-          "401": {
-            "description": "..."
-          },
-          "403": {
-            "description": "..."
-          },
-          "404": {
-            "description": "...",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
-          },
-          "409": {
-            "description": "...",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "...",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "summary": "...",
-        "description": "...",
-        "operationId": "deleteUser",
-        "tags": [
-          "Users"
-        ],
-        "security": [
-          {
-            "AccessToken": []
-          }
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "example": "66294b2a4475a41f3e709bca",
-            "description": "..."
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "..."
-          },
-          "400": {
-            "description": "..."
-          },
-          "401": {
-            "description": "..."
-          },
-          "403": {
-            "description": "..."
-          },
-          "404": {
-            "description": "...",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "...",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/auth/token": {
-      "post": {
-        "summary": "...",
-        "description": "...",
-        "operationId": "postAuthLogin",
-        "tags": [
-          "Auth"
-        ],
-        "security": [
-          {
-            "BasicAuth": []
-          }
-        ],
-        "requestBody": {
-          "$ref": "#/components/requestBodies/CreateTokenRequest"
-        },
-        "responses": {
-          "201": {
-            "description": "...",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Auth"
-                }
-              }
-            },
-            "headers": {
-              "Location": {
-                "schema": {
-                  "type": "string"
-                },
-                "description": "..."
-              }
-            }
-          },
-          "400": {
-            "description": "..."
-          },
-          "409": {
-            "description": "...",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "...",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/auth/refresh-token": {
-      "post": {
-        "summary": "...",
-        "description": "...",
-        "operationId": "postAuthRefreshToken",
-        "tags": [
-          "Auth"
-        ],
-        "requestBody": {
-          "description": "...",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "properties": {
-                  "refresh_token": {
-                    "$ref": "#/components/schemas/RefreshToken"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "...",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Auth"
-                }
-              }
-            },
-            "headers": {
-              "Location": {
-                "schema": {
-                  "type": "string"
-                },
-                "description": "..."
-              }
-            }
-          },
-          "400": {
-            "description": "..."
-          },
-          "401": {
-            "description": "..."
-          },
-          "403": {
-            "description": "..."
-          },
-          "404": {
-            "description": "...",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "...",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  },
-  "components": {
-    "requestBodies": {
-      "CreateDishRequest": {
-        "description": "...",
-        "required": true,
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "type": "string",
-                  "example": "Risotto alla Milanese",
-                  "description": "..."
-                },
-                "description": {
-                  "$ref": "#/components/schemas/Description"
-                },
-                "category": {
-                  "$ref": "#/components/schemas/Category"
-                },
-                "image_name": {
-                  "$ref": "#/components/schemas/ImageName"
-                },
-                "ingredients": {
-                  "$ref": "#/components/schemas/Ingredients"
-                },
-                "preparation_time": {
-                  "$ref": "#/components/schemas/PreparationTime"
-                },
-                "price": {
-                  "$ref": "#/components/schemas/Price"
-                },
-                "station": {
-                  "$ref": "#/components/schemas/Station"
-                }
-              },
-              "required": [
-                "category",
-                "description",
-                "image_name",
-                "ingredients",
-                "preparation_time",
-                "name",
-                "price",
-                "station"
-              ]
-            }
-          }
-        }
-      },
-      "UpdateDishRequest": {
-        "description": "...",
-        "required": true,
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "type": "string",
-                  "example": "Risotto alla Milanese",
-                  "description": "..."
-                },
-                "description": {
-                  "$ref": "#/components/schemas/Description"
-                },
-                "category": {
-                  "$ref": "#/components/schemas/Category"
-                },
-                "image_name": {
-                  "$ref": "#/components/schemas/ImageName"
-                },
-                "ingredients": {
-                  "$ref": "#/components/schemas/Ingredients"
-                },
-                "preparation_time": {
-                  "$ref": "#/components/schemas/PreparationTime"
-                },
-                "price": {
-                  "$ref": "#/components/schemas/Price"
-                },
-                "station": {
-                  "$ref": "#/components/schemas/Station"
-                }
-              }
-            }
-          }
-        }
-      },
-      "CreateIngredientRequest": {
-        "description": "...",
-        "required": true,
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "type": "string",
-                  "example": "Carrot",
-                  "description": "..."
-                },
-                "in_stock_qty": {
-                  "$ref": "#/components/schemas/InStockQty"
-                },
-                "price": {
-                  "$ref": "#/components/schemas/Price"
-                }
-              },
-              "required": [
-                "name",
-                "in_stock_qty",
-                "price"
-              ]
-            }
-          }
-        }
-      },
-      "UpdateIngredientRequest": {
-        "description": "...",
-        "required": true,
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "type": "string",
-                  "example": "Carrot",
-                  "description": "..."
-                },
-                "in_stock_qty": {
-                  "$ref": "#/components/schemas/InStockQty"
-                },
-                "price": {
-                  "$ref": "#/components/schemas/Price"
-                }
-              }
-            }
-          }
-        }
-      },
-      "CreateOrderRequest": {
-        "description": "...",
-        "required": true,
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "type": "string",
-                  "pattern": "^[^\\s]*$",
-                  "example": "John",
-                  "description": "..."
-                },
-                "table_number": {
-                  "$ref": "#/components/schemas/TableNumber"
-                },
-                "dish_ids": {
-                  "$ref": "#/components/schemas/DishIds"
-                },
-                "special_requests": {
-                  "$ref": "#/components/schemas/SpecialRequests"
-                },
-                "scheduled_at": {
-                  "$ref": "#/components/schemas/ScheduledAt"
-                }
-              },
-              "required": [
-                "dish_ids",
-                "name"
-              ]
-            },
-            "examples": {
-              "Order - Unscheduled": {
-                "value": {
-                  "name": "Ben",
-                  "table_number": 18,
-                  "dish_ids": [
-                    "692a4a34a46ecf001f35ac6f",
-                    "6a4a857c022eb7001f9b8972",
-                    "6b7c2441a0db43001f9bf377"
-                  ],
-                  "special_requests": "No peanuts.",
-                  "scheduled at": null
-                }
-              },
-              "Order - Scheduled": {
-                "value": {
-                  "name": "Ben",
-                  "table_number": 18,
-                  "dish_ids": [
-                    "692a4a34a46ecf001f35ac6f",
-                    "6a4a857c022eb7001f9b8972",
-                    "6b7c2441a0db43001f9bf377"
-                  ],
-                  "scheduled_at": "2024-08-26T09:03:18.865Z"
-                }
-              }
-            }
-          }
-        }
-      },
-      "UpdateOrderRequest": {
-        "description": "...",
-        "required": true,
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "dish_ids": {
-                  "$ref": "#/components/schemas/DishIds"
-                },
-                "priority": {
-                  "$ref": "#/components/schemas/Priority"
-                },
-                "status": {
-                  "$ref": "#/components/schemas/Status"
-                }
-              }
-            }
-          }
-        }
-      },
-      "CreateTokenRequest": {
-        "description": "...",
-        "required": true,
-        "content": {
-          "application/json": {
-            "schema": {
-              "properties": {
-                "grant_type": {
-                  "type": "string",
-                  "description": "...",
-                  "example": "password"
-                },
-                "user_name": {
-                  "$ref": "#/components/schemas/UserName"
-                },
-                "password": {
-                  "$ref": "#/components/schemas/Password"
-                }
-              },
-              "required": [
-                "grant_type",
-                "user_name",
-                "password"
-              ]
-            }
-          }
-        }
-      },
-      "CreateUserRequest": {
-        "description": "...",
-        "required": true,
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "email": {
-                  "$ref": "#/components/schemas/Email"
-                },
-                "password": {
-                  "$ref": "#/components/schemas/Password"
-                },
-                "role": {
-                  "$ref": "#/components/schemas/Role"
-                },
-                "user_name": {
-                  "$ref": "#/components/schemas/UserName"
-                }
-              },
-              "required": [
-                "email",
-                "password",
-                "role",
-                "user_name"
-              ]
-            }
-          }
-        }
-      },
-      "UpdateUserRequest": {
-        "description": "...",
-        "required": true,
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "email": {
-                  "$ref": "#/components/schemas/Email"
-                },
-                "password": {
-                  "$ref": "#/components/schemas/Password"
-                },
-                "role": {
-                  "$ref": "#/components/schemas/Role"
-                },
-                "user_name": {
-                  "$ref": "#/components/schemas/UserName"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "schemas": {
-      "AccessToken": {
-        "type": "string",
-        "description": "...",
-        "example": "fa0b97b2-445f-41d2-b50f-fb3b014a301e"
-      },
-      "SpecialRequests": {
-        "type": "string",
-        "nullable": true,
-        "description": "..."
-      },
-      "Auth": {
-        "type": "object",
-        "description": "...",
-        "properties": {
-          "auth_id": {
-            "$ref": "#/components/schemas/Id"
-          },
-          "created_at": {
-            "$ref": "#/components/schemas/CreatedAt"
-          },
-          "updated_at": {
-            "$ref": "#/components/schemas/UpdatedAt"
-          },
-          "access_token": {
-            "$ref": "#/components/schemas/AccessToken"
-          },
-          "expires_at": {
-            "$ref": "#/components/schemas/ExpiresAt"
-          },
-          "refresh_token": {
-            "$ref": "#/components/schemas/RefreshToken"
-          },
-          "token_type": {
-            "$ref": "#/components/schemas/TokenType"
-          },
-          "user_name": {
-            "$ref": "#/components/schemas/UserName"
-          }
-        }
-      },
-      "Category": {
-        "type": "string",
-        "enum": [
-          "Appetizer",
-          "Main Course",
-          "Dessert",
-          "Drinks"
-        ],
-        "example": "Main Course",
-        "description": "..."
-      },
-      "CreatedAt": {
-        "type": "string",
-        "format": "date-time",
-        "example": "2024-04-22T10:00:00Z",
-        "readOnly": true,
-        "description": "..."
-      },
-      "Description": {
-        "type": "string",
-        "example": "A description of the resource."
-      },
-      "Dish": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "$ref": "#/components/schemas/Id"
-          },
-          "created_at": {
-            "$ref": "#/components/schemas/CreatedAt"
-          },
-          "name": {
-            "type": "string",
-            "example": "Risotto alla Milanese",
-            "description": "..."
-          },
-          "description": {
-            "$ref": "#/components/schemas/Description"
-          },
-          "category": {
-            "$ref": "#/components/schemas/Category"
-          },
-          "image_name": {
-            "$ref": "#/components/schemas/ImageName"
-          },
-          "ingredients": {
-            "$ref": "#/components/schemas/Ingredients"
-          },
-          "preparation_time": {
-            "$ref": "#/components/schemas/Price"
-          },
-          "price": {
-            "$ref": "#/components/schemas/Price"
-          },
-          "station": {
-            "$ref": "#/components/schemas/Station"
-          }
-        }
-      },
-      "DishIds": {
-        "type": "array",
-        "items": {
-          "type": "string"
-        },
-        "example": [
-          "692a4a34a46ecf001f35ac6f",
-          "6a4a857c022eb7001f9b8972",
-          "6b7c2441a0db43001f9bf377"
-        ],
-        "description": "..."
-      },
-      "Email": {
-        "type": "string",
-        "format": "email",
-        "description": "...",
-        "example": "johndoe@gmail.com"
-      },
-      "ExpiresAt": {
-        "type": "string",
-        "format": "date-time",
-        "example": "2024-04-22T10:00:00Z",
-        "readOnly": true,
-        "description": "..."
-      },
-      "RefreshToken": {
-        "type": "string",
-        "description": "...",
-        "example": "d1a3e281-96b6-4f77-a587-7b6c8c2a96d9"
-      },
-      "Id": {
-        "type": "string",
-        "example": "674d0bf5c28b69001f8e03a1",
-        "readOnly": true,
-        "description": "..."
-      },
-      "ImageName": {
-        "type": "string",
-        "description": "...",
-        "example": "burger"
-      },
-      "Ingredients": {
-        "type": "array",
-        "description": "...",
-        "items": {
-          "type": "object",
-          "properties": {
-            "ingredient_id": {
-              "type": "string",
-              "example": "66294b2a4475a41f3e709bc4",
-              "description": "..."
-            },
-            "is_essential": {
-              "type": "boolean",
-              "description": "...",
-              "example": true
-            }
-          },
-          "example": [
-            {
-              "ingredient_id": "66294b2a4475a41f3e709bc5",
-              "is_essential": true
-            },
-            {
-              "ingredient_id": "66294b2a4475a41f3e709bc6",
-              "is_essential": true
-            },
-            {
-              "ingredient_id": "66294b2a4475a41f3e709bc7",
-              "is_essential": false
-            }
-          ]
-        }
-      },
-      "Ingredient": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "$ref": "#/components/schemas/Id"
-          },
-          "created_at": {
-            "$ref": "#/components/schemas/CreatedAt"
-          },
-          "updated_at": {
-            "$ref": "#/components/schemas/UpdatedAt"
-          },
-          "name": {
-            "type": "string",
-            "example": "Carrot",
-            "description": "..."
-          },
-          "in_stock_qty": {
-            "$ref": "#/components/schemas/InStockQty"
-          },
-          "price": {
-            "$ref": "#/components/schemas/Price"
-          }
-        }
-      },
-      "InStockQty": {
-        "type": "integer",
-        "description": "...",
-        "example": 3
-      },
-      "Order": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "$ref": "#/components/schemas/Id"
-          },
-          "created_at": {
-            "$ref": "#/components/schemas/CreatedAt"
-          },
-          "updated_at": {
-            "$ref": "#/components/schemas/UpdatedAt"
-          },
-          "name": {
-            "type": "string",
-            "pattern": "^[^\\s]*$",
-            "example": "John",
-            "description": "..."
-          },
-          "table_number": {
-            "$ref": "#/components/schemas/TableNumber"
-          },
-          "dish_ids": {
-            "$ref": "#/components/schemas/DishIds"
-          },
-          "special_requests": {
-            "$ref": "#/components/schemas/SpecialRequests"
-          },
-          "priority": {
-            "$ref": "#/components/schemas/Priority"
-          },
-          "scheduled_at": {
-            "$ref": "#/components/schemas/ScheduledAt"
-          },
-          "status": {
-            "$ref": "#/components/schemas/Status"
-          }
-        }
-      },
-      "Password": {
-        "type": "string",
-        "description": "...",
-        "example": "P@ssw0rd!"
-      },
-      "PreparationTime": {
-        "type": "integer",
-        "description": "...",
-        "example": 45
-      },
-      "Price": {
-        "type": "number",
-        "format": "float",
-        "example": 999,
-        "description": "..."
-      },
-      "Priority": {
-        "type": "integer",
-        "minimum": 0,
-        "maximum": 5,
-        "default": 3,
-        "description": "..."
-      },
-      "Problem": {
-        "type": "object",
-        "properties": {
-          "title": {
-            "type": "string",
-            "description": "...",
-            "example": "Human-readable error title."
-          },
-          "detail": {
-            "type": "string",
-            "description": "...",
-            "example": "Human-readable error details."
-          }
-        },
-        "required": [
-          "title",
-          "detail"
-        ]
-      },
-      "Role": {
-        "type": "string",
-        "enum": [
-          "patron",
-          "expeditor",
-          "chef",
-          "manager"
-        ],
-        "example": "manager",
-        "description": "..."
-      },
-      "ScheduledAt": {
-        "type": "string",
-        "format": "date-time",
-        "description": "...",
-        "nullable": true,
-        "example": null
-      },
-      "Station": {
-        "type": "string",
-        "description": "...",
-        "enum": [
-          "cold",
-          "hot",
-          "beverages"
-        ],
-        "example": "hot"
-      },
-      "Status": {
-        "type": "string",
-        "nullable": true,
-        "enum": [
-          "Draft",
-          "Received",
-          "In Progress",
-          "Ready for Assembly",
-          "On the Way",
-          "Ready for Pickup"
-        ],
-        "example": "Received",
-        "description": "..."
-      },
-      "TableNumber": {
-        "type": "integer",
-        "example": 8,
-        "nullable": true,
-        "description": "..."
-      },
-      "TokenType": {
-        "type": "string",
-        "description": "...",
-        "example": "Bearer"
-      },
-      "UpdatedAt": {
-        "type": "string",
-        "format": "date-time",
-        "example": "2024-04-22T10:00:00Z",
-        "readOnly": true,
-        "description": "..."
-      },
-      "User": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "$ref": "#/components/schemas/Id"
-          },
-          "created_at": {
-            "$ref": "#/components/schemas/CreatedAt"
-          },
-          "updated_at": {
-            "$ref": "#/components/schemas/UpdatedAt"
-          },
-          "user_name": {
-            "$ref": "#/components/schemas/UserName"
-          },
-          "email": {
-            "$ref": "#/components/schemas/Email"
-          },
-          "password": {
-            "$ref": "#/components/schemas/Password"
-          },
-          "role": {
-            "$ref": "#/components/schemas/Role"
-          }
-        }
-      },
-      "UserName": {
-        "type": "string",
-        "description": "...",
-        "example": "john_doe"
-      }
-    },
-    "securitySchemes": {
-      "AccessToken": {
-        "type": "http",
-        "scheme": "bearer"
-      },
-      "BasicAuth": {
-        "type": "http",
-        "scheme": "basic",
-        "description": "..."
-      }
-    }
-  }
-}
+        The server assigns a unique ID to the order and returns it in the response. The order ID is used in other operations to retrieve the order details or update the order.
+      tags:
+        - Orders
+      security:
+        - AccessToken: []
+      responses:
+        '201':
+          description: Resource created successfully. The response body contains the newly created resource. 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+          headers:
+            Location:
+              schema:
+                type: string
+              description: ...
+        '400':
+          description: Bad request. The request was malformed or invalid. Ensure all required fields are provided and properly formatted.
+        '401':
+          description: Authentication failed. The client must provide a valid access token in the request.
+        '403':
+          description: Forbidden. Request failed due to insufficient permissions.
+        '404':
+          description: The requested resource could not be found. 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '409':
+          description: Conflict. The update could not be applied due to conflicting changes.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem409'
+        '500':
+          description: It's us not you. An unexpected error occurred on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      requestBody:
+        $ref: '#/components/requestBodies/CreateOrderRequest'
+    get:
+      summary: Retrieve a list of orders.
+      description: |
+        This operation retrieves a paginated list of orders based on parameters specified in the query. Filters, sorting, and field selection can be used as parameters to filter the list of orders.
+        
+        The server returns a paginated list of orders and the total of orders returned. 
+        
+        Expeditors can use this operation to see all new orders for the day on the kitchen display system (KDS).
+      operationId: getOrderList
+      tags:
+        - Orders
+      parameters:
+        - name: sort
+          in: query
+          description: Specifies the field by which the results should be sorted. If you include a `sort` value, you must include an `order` value.
+          schema:
+            type: string
+          example: priority
+        - name: order
+          in: query
+          description: Determines the order in which the results should be sorted. This parameter specifies whether the sorting should be in ascending or descending order. Valid values are `asc` for ascending order and `desc` for descending order. If you include an `order` value, you must include a `sort` value.
+          schema:
+            type: string
+          example: asc
+        - name: fields
+          in: query
+          description: Use this parameter to specify which resource properties should be included in the response. Provide a list of schema property names, separated by the `|` delimiter. 
+          schema:
+            type: string
+          example: table_number|status|priority
+        - name: filter
+          in: query
+          description: |
+            Selection filters to display resources matching the provided criteria. 
+            
+            Use the format `fieldName.operator~value`.
+            
+            **Basic Equality (eq)**
+            - For exact matches, use `fieldName.eq~value`.
+            
+            **Comparison Operators:**
+            - **Less Than (lt)** Use `fieldName.lt~value`.
+            - **Less Than or Equal To (lte)** Use `fieldName.lte~value`.
+            - **Greater Than (gt):** Use `fieldName.gt~value`.
+            - **Greater Than or Equal To (gte):** Use `fieldName.gte~value`.
+            
+            Separate filters using the `|` delimter. 
+            
+            Dates should be in `YYYY-MM-DD` format.
+          schema:
+            type: string
+            example: table_number.lt~5|status.eq~On the Way
+        - name: limit
+          in: query
+          description: Pagination filter for the maximum number of results to return in the response.
+          schema:
+            type: integer
+            maximum: 30
+          example: 10
+        - name: offset
+          in: query
+          description: Offset-based pagination filter for the number of results to skip before displaying resources.
+          schema:
+            type: integer
+            example: 0
+      responses:
+        '200':
+          description: The resource was retrieved by the server and is included in the response body.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Order'
+                  total_results:
+                    type: integer
+                    example: 20
+        '400':
+          description: Bad request. The request was malformed or invalid. Ensure all required fields are provided and properly formatted.
+        '401':
+          description: ...
+        '403':
+          description: Forbidden. Request failed due to insufficient permissions.
+        '500':
+          description: It's us not you. An unexpected error occurred on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+  /orders/{id}:
+    get:
+      summary: Retrieve details of an order.
+      description: |
+        This operation retrieves the details of an order using the order ID. Specific fields can be selected to be included in the response.
+        
+        Order ID is a required field in this operation. 
+        
+        The server returns detailed information about the order, including the list of dishes for the order, order priority, table number, customer name, schedule time, and order status.
+        
+        If the order is not found, a `404` error is returned.
+
+        Staff can use this operation to confirm details about an order.
+      operationId: getOrder
+      tags:
+        - Orders
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: 66294b2a4475a41f3e709bcc
+          description: Unique identifier for the order.
+        - name: fields
+          in: query
+          description: Parameter to specify which resource properties should be included in the response. Resources are separated by the `|` delimiter.
+          schema:
+            type: string
+          example: table_number|status|priority
+      responses:
+        '200':
+          description: ...
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '400':
+          description: Bad request. The request was malformed or invalid. Ensure all required fields are provided and properly formatted.
+        '401':
+          description: Authentication failed. The client must provide a valid access token in the request.
+        '403':
+          description: Forbidden. Request failed due to insufficient permissions.
+        '404':
+          description: The requested resource could not be found. 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem404'
+        '500':
+          description: It's us not you. An unexpected error occurred on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+    put:
+      summary: Update an order.
+      description: |
+        This operation updates the details of an existing order using the order ID and the fields to be updated.
+        
+        The order ID is a required field and is specified in the query path. The fields to be updated are specified in the request body. 
+        
+        Updating an order requires an access token to be passed in the header.
+        
+        The server validates the updated fields and applies the changes to the order.
+        A `200` response indicates success. A `404` indicates the order was not found.
+        
+        Expeditors can use this operation to set the status of an order. 
+      operationId: putOrder
+      tags:
+        - Orders
+      security:
+        - AccessToken: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: 66294b2a4475a41f3e709bcd
+          description: Unique identifier for the order.
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateOrderRequest'
+      responses:
+        '200':
+          description: ...
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Order'
+                  total_results:
+                    type: integer
+                    example: 1
+        '204':
+          description: Resource updated. No content to return.
+        '400':
+          description: Bad request. The request was malformed or invalid. Ensure all required fields are provided and properly formatted.
+        '401':
+          description: Authentication failed. The client must provide a valid access token in the request.
+        '403':
+          description: Forbidden. Request failed due to insufficient permissions.
+        '404':
+          description: The requested resource could not be found. 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem404'
+        '409':
+          description: Conflict. The update could not be applied due to conflicting changes.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem409'
+        '500':
+          description: It's us not you. An unexpected error occurred on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+    delete:
+      summary: Delete an order.
+      description: |
+        This operation deletes an order by order ID. Once an order is deleted, it cannot be recovered.
+                
+        Deleting an order requires an access token to be passed in the header.
+
+        The server removes the order from the system and returns a `204` response.
+        If the order does not exist, a `404` error is returned.
+        
+        This operation can be used by administrators to delete orders from the database. 
+      operationId: deleteOrder
+      tags:
+        - Orders
+      security:
+        - AccessToken: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: 66294b2a4475a41f3e709bca
+          description: Unique identifier for the order.
+      responses:
+        '204':
+          description: Resource updated. No content to return. 
+        '400':
+          description: Bad request. The request was malformed or invalid. Ensure all required fields are provided and properly formatted.
+        '401':
+          description: Authentication failed. The client must provide a valid access token in the request.
+        '403':
+          description: Forbidden. Request failed due to insufficient permissions.
+        '404':
+          description: The requested resource could not be found. 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem404'
+        '500':
+          description: It's us not you. An unexpected error occurred on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+  /orders/{id}/dishes:
+    get:
+      summary: Retrieve dishes in an order.
+      description: |
+         Get a list of all dishes for an order. Filters, sorting, and field selection can be used as parameters to filter the list of dishes and specify which fields are returned in the response.
+         
+          The server retrieves the list of dishes and dish information like preparation time and station.
+          
+          A `404` error is returned if the order is not found.
+        
+          This operation can be used to display the list of dishes for each station for an order in the kitchen display system (KDS).
+      operationId: getOrderDishes
+      tags:
+        - Orders
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: 66294b2a4475a41f3e709bcb
+          description: Unique identifier for the order.
+        - name: sort
+          in: query
+          description: Specifies the field by which the results should be sorted. If you include an `order` value, you must include a `sort` value.
+          schema:
+            type: string
+          example: station
+        - name: order
+          in: query
+          description: Determines the order in which the results should be sorted. Specifies whether the sorting should be in ascending or descending order. Valid values are `asc` for ascending order and `desc` for descending order.  If you include an `order` value, you must include a `sort` value.
+          schema:
+            type: string
+          example: asc
+        - name: fields
+          in: query
+          description: Use this parameter to specify which resource properties should be included in the response. Provide a list of schema property names, separated by the `|` delimiter.
+          schema:
+            type: string
+          example: name|station|ingredients
+        - name: filter
+          in: query
+          description: |
+            Selection filters to display resources matching the provided criteria. 
+            
+            Use the format `fieldName.operator~value`.
+            
+            **Basic Equality (eq)**
+            - For exact matches, use `fieldName.eq~value`.
+            
+            **Comparison Operators:**
+            - **Less Than (lt)** Use `fieldName.lt~value`.
+            - **Less Than or Equal To (lte)** Use `fieldName.lte~value`.
+            - **Greater Than (gt):** Use `fieldName.gt~value`.
+            - **Greater Than or Equal To (gte):** Use `fieldName.gte~value`.
+            
+            Separate filters using the `|` delimter. 
+            
+            Dates should be in `YYYY-MM-DD` format.
+          schema:
+            type: string
+            example: created_at.gt~2024-05-07|station.eq~hot
+        - name: limit
+          in: query
+          description: Pagination filter for the maximum number of results to return in the response.
+          schema:
+            type: integer
+            maximum: 30
+          example: 10
+        - name: offset
+          in: query
+          description: Offset-based pagination filter for the number of results to skip before displaying resources.
+          schema:
+            type: integer
+            example: 0
+      responses:
+        '200':
+          description: The resource was retrieved by the server and is included in the response body.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Dish'
+                  total_results:
+                    type: integer
+                    example: 1
+        '400':
+          description: Bad request. The request was malformed or invalid. Ensure all required fields are provided and properly formatted.
+        '401':
+          description: Authentication failed. The client must provide a valid access token in the request.
+        '403':
+          description: Forbidden. Request failed due to insufficient permissions.
+        '404':
+          description: The requested resource could not be found. 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem404'
+        '500':
+          description: It's us not you. An unexpected error occurred on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+  /dishes:
+    post:
+      summary: Add a dish to the menu.
+      tags:
+        - Dishes
+      operationId: postDishes
+      security:
+        - AccessToken: []
+      description: |
+        This operation adds a dish to the menu. 
+        
+        The dish name, description, category, image name, ingredients, preparation time, price, and station are required fields which are added in the request body. 
+        
+        Adding a dish requires an access token to be passed in the header.
+        
+        The server returns `201`, the dish details, and a unique ID in the response.
+        
+        The dish ID is used in other operations to view details of a dish or to add a dish to an order. 
+        
+        Admins can use this operation to update the menu.
+        
+      requestBody:
+        $ref: '#/components/requestBodies/CreateDishRequest'
+      responses:
+        '201':
+          description: Resource created successfully. The response body contains the newly created resource.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dish'
+          headers:
+            Location:
+              schema:
+                type: string
+              description: ...
+        '400':
+          description: Bad request. The request was malformed or invalid. Ensure all required fields are provided and properly formatted.
+        '401':
+          description: Authentication failed. The client must provide a valid access token in the request.
+        '403':
+          description: Forbidden. Request failed due to insufficient permissions.
+        '404':
+          description: The requested resource could not be found. 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem404'
+        '409':
+          description: Conflict. The update could not be applied due to conflicting changes.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem409'
+        '500':
+          description: It's us not you. An unexpected error occurred on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+    get:
+      summary: Retrieve a list of dishes.
+      description: |
+        This operation retrieves all dishes on the menu. Filters, sorting, and field selection can be added as query parameters to filter the list of dishes.
+        
+        The server returns a paginated list of dishes with information about the dishes.
+        
+        This operation can be used to display a list of dishes to patrons.
+        
+      operationId: getDishList
+      tags:
+        - Dishes
+      parameters:
+        - name: sort
+          in: query
+          description: Specifies the field by which the results should be sorted. If you include an `order` value, you must include a `sort` value.
+          schema:
+            type: string
+          example: name
+        - name: order
+          in: query
+          description: Determines the order in which the results should be sorted. Specifies whether the sorting should be in ascending or descending order. Valid values are `asc` for ascending order and `desc` for descending order.  If you include an `order` value, you must include a `sort` value.
+          schema:
+            type: string
+          example: asc
+        - name: fields
+          in: query
+          description: Use this parameter to specify which resource properties should be included in the response. Provide a list of schema property names, separated by the `|` delimiter.
+          schema:
+            type: string
+          example: name|ingredients|station
+        - name: filter
+          in: query
+          description: | 
+            Selection filters to display resources matching the provided criteria. 
+            Use the format `fieldName.operator~value`.
+            
+            **Basic Equality (eq)**
+            - For exact matches, use `fieldName.eq~value`.
+            
+            **Comparison Operators:**
+            - **Less Than (lt)** Use `fieldName.lt~value`.
+            - **Less Than or Equal To (lte)** Use `fieldName.lte~value`.
+            - **Greater Than (gt):** Use `fieldName.gt~value`.
+            - **Greater Than or Equal To (gte):** Use `fieldName.gte~value`.
+            
+            Separate filters using the `|` delimiter. 
+            Dates should be in `YYYY-MM-DD` format.
+
+          schema:
+            type: string
+            example: created_at.gt~2024-05-07|price.lte~19.99
+        - name: limit
+          in: query
+          description: Pagination filter for the maximum number of results to return in the response.
+          schema:
+            type: integer
+            maximum: 30
+          example: 10
+        - name: offset
+          in: query
+          description: Offset-based pagination filter for the number of results to skip before displaying resources.
+          schema:
+            type: integer
+            example: 0
+      responses:
+        '200':
+          description: The resource was retrieved by the server and is included in the response body.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Dish'
+                  total_results:
+                    type: integer
+                    example: 20
+                    description: Number of resources returned in the response.
+        '400':
+          description: Bad request. The request was malformed or invalid. Ensure all required fields are provided and properly formatted.
+        '401':
+          description: Authentication failed. The client must provide a valid access token in the request.
+        '403':
+          description: Forbidden. The server understood the request but refused to process it.
+        '500':
+          description: It's us not you. An unexpected error occurred on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+  /dishes/{id}:
+    get:
+      summary: Retrieve details of a dish.
+      description: |
+        This operation retrieves information about a dish by its unique ID. Specific fields can be selected to be included in the response.
+        
+        Dish ID is a required field.
+        
+        The server returns the dish details in the response.
+       
+        A `404` error is returned if the dish is not found.
+        
+        This operation can be used to display dish information to patrons.
+        
+      operationId: getDish
+      tags:
+        - Dishes
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: string
+          required: true
+          example: 66294b2a4475a41f3e709bd1
+          description: Unique identifier for the dish.
+        - name: fields
+          in: query
+          description: Use this parameter to specify which resource properties should be included in the response. Provide a list of schema property names, separated by the `|` delimiter.
+          schema:
+            type: string
+          example: name|price|station|ingredients
+      responses:
+        '200':
+          description: The resource was retrieved by the server and is included in the response body.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dish'
+        '400':
+          description: Bad request. The request was malformed or invalid. Ensure all required fields are provided and properly formatted.
+        '401':
+          description: Authentication failed. The client must provide a valid access token in the request.
+        '403':
+          description: Forbidden. Request failed due to insufficient permissions.
+        '404':
+          description: The requested resource could not be found. 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem404'
+        '500':
+          description: It's us not you. An unexpected error occurred on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+    put:
+      summary: Update a dish.
+      operationId: putDish
+      tags:
+        - Dishes
+      security:
+        - AccessToken: []
+      description: |
+        This operation updates the details of an dish using the dish ID and the fields to be updated.
+
+        The dish ID is a required field and is specified in the query path. The fields to be updated are specified in the request body.
+
+        Updating a dish requires an access token to be passed in the header.
+
+        The server validates the updated fields and applies the changes to the dish. A `200` response indicates success. A `404` indicates the order was not found.
+
+        Expeditors can use this operation to set the status of an order.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: 66294b2a4475a41f3e709bce
+          description: Unique identifier for the dish.
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateDishRequest'
+      responses:
+        '200':
+          description: ...
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dish'
+          headers:
+            Location:
+              schema:
+                type: string
+              description: ...
+        '204':
+          description: Resource updated. No content to return.
+        '400':
+          description: Bad request. The request was malformed or invalid. Ensure all required fields are provided and properly formatted.
+        '401':
+          description: Authentication failed. The client must provide a valid access token in the request.
+        '403':
+          description: Forbidden. Request failed due to insufficient permissions.
+        '404':
+          description: The requested resource could not be found. 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem404'
+        '409':
+          description: Conflict. The update could not be applied due to conflicting changes.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem409'
+        '500':
+          description: It's us not you. An unexpected error occurred on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+    delete:
+      summary: Delete a dish.
+      description: |
+        This operation deletes a dish by dish ID. Once a dish is deleted, it cannot be recovered.
+
+        Deleting a dish requires an access token to be passed in the header.
+
+        The server removes the dish from the system and returns a `204` response. If the order does not exist, a `404` error is returned.
+
+        This operation can be used by administrators to delete dishes from the database.
+      operationId: deleteDish
+      tags:
+        - Dishes
+      security:
+        - AccessToken: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: 66294b2a4475a41f3e709bd0
+          description: Unique ID for the dish.
+      responses:
+        '204':
+          description: Resource updated. No content to return.
+        '400':
+          description: Bad request. The request was malformed or invalid. Ensure all required fields are provided and properly formatted.
+        '401':
+          description: Authentication failed. The client must provide a valid access token in the request.
+        '403':
+          description: Forbidden. Request failed due to insufficient permissions.
+        '404':
+          description: The requested resource could not be found. 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem404'
+        '500':
+          description: It's us not you. An unexpected error occurred on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+  /dishes/{id}/ingredients:
+    get:
+      summary: Retrieve the ingredients for a dish.
+      description:  |
+        Get a list of ingredients for a dish. Filters, sorting, and field selection can be used as parameters to filter the list of dishes and specify which fields are returned in the response.
+
+        The server returns the list of ingredients in the response.
+
+        A 404 error is returned if the dish is not found.
+
+        This operation can be used to display the list of dishes for each station for an order in the kitchen display system (KDS).
+      operationId: getDishIngredients
+      tags:
+        - Dishes
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: 66294b2a4475a41f3e709bd2
+          description: Unique ID of the dish. 
+        - name: sort
+          in: query
+          description: Specifies the field by which the results should be sorted. If you include an `order` value, you must include a `sort` value.
+          schema:
+            type: string
+          example: name
+        - name: order
+          in: query
+          description: Determines the order in which the results should be sorted. Specifies whether the sorting should be in ascending or descending order. Valid values are `asc` for ascending order and `desc` for descending order.  If you include an `order` value, you must include a `sort` value.
+          schema:
+            type: string
+          example: asc
+        - name: fields
+          in: query
+          description: Use this parameter to specify which resource properties should be included in the response. Provide a list of schema property names, separated by the `|` delimiter.
+          schema:
+            type: string
+          example: name|in_stock_qty
+        - name: filter
+          in: query
+          description: |
+            Selection filters to display resources matching the provided criteria. 
+            Use the format `fieldName.operator~value`.
+            
+            **Basic Equality (eq)**
+            - For exact matches, use `fieldName.eq~value`.
+            
+            **Comparison Operators:**
+            - **Less Than (lt)** Use `fieldName.lt~value`.
+            - **Less Than or Equal To (lte)** Use `fieldName.lte~value`.
+            - **Greater Than (gt):** Use `fieldName.gt~value`.
+            - **Greater Than or Equal To (gte):** Use `fieldName.gte~value`.
+            
+            Separate filters using the `|` delimiter. 
+            Dates should be in `YYYY-MM-DD` format.
+
+          schema:
+            type: string
+            example: created_at.gt~2024-05-07|in_stock_qty.gt~3
+        - name: limit
+          in: query
+          description: Pagination filter for the maximum number of results to return in the response.
+          schema:
+            type: integer
+            maximum: 30
+          example: 10
+        - name: offset
+          in: query
+          description: Offset-based pagination filter for the number of results to skip before displaying resources.
+          schema:
+            type: integer
+            example: 0
+      responses:
+        '200':
+          description: The resource was retrieved by the server and is included in the response body.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Ingredient'
+                  total_results:
+                    type: integer
+                    example: 1
+        '400':
+          description: Bad request. The request was malformed or invalid. Ensure all required fields are provided and properly formatted.
+        '401':
+          description: Authentication failed. The client must provide a valid access token in the request.
+        '403':
+          description: Forbidden. Request failed due to insufficient permissions.
+        '404':
+          description: The requested resource could not be found. 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem404'
+        '500':
+          description: It's us not you. An unexpected error occurred on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+  /ingredients:
+    post:
+      summary: Add ingredients.
+      description: |
+        This operation adds ingredients to the database using the ingredient name, quantity in stock, and price. The ingredient name, quantity, and price are required fields. 
+        
+        The server returns an ingredient ID which is used when creating dishes. 
+        
+        Adding ingredients requires an access token to be passed in the header. 
+        
+      operationId: postIngredient
+      tags:
+        - Ingredients
+      security:
+        - AccessToken: []
+      requestBody:
+        $ref: '#/components/requestBodies/CreateIngredientRequest'
+      responses:
+        '201':
+          description: Resource created successfully. The response body contains the newly created resource.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ingredient'
+          headers:
+            Location:
+              schema:
+                type: string
+              description: ...
+        '400':
+          description: Bad request. The request was malformed or invalid. Ensure all required fields are provided and properly formatted.
+        '401':
+          description: Authentication failed. The client must provide a valid access token in the request.
+        '403':
+          description: Forbidden. Request failed due to insufficient permissions.
+        '409':
+          description: Conflict. The update could not be applied due to conflicting changes.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem409'
+        '500':
+          description: It's us not you. An unexpected error occurred on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+    get:
+      summary: Retrieve a list of ingredients.
+      description: |
+        This operation returns a paginated list ingredients based on parameters specified in the query. Filters, sorting, and field selection can be used as parameters to filter the list of orders.  
+        
+        The server returns a list of ingredients.
+        
+      operationId: getIngredientList
+      tags:
+        - Ingredients
+      parameters:
+        - name: sort
+          in: query
+          description: Specifies the field by which the results should be sorted. If you include an `order` value, you must include a `sort` value.
+          schema:
+            type: string
+          example: name
+        - name: order
+          in: query
+          description: Determines the order in which the results should be sorted. Specifies whether the sorting should be in ascending or descending order. Valid values are `asc` for ascending order and `desc` for descending order.  If you include an `order` value, you must include a `sort` value.
+          schema:
+            type: string
+          example: asc
+        - name: fields
+          in: query
+          description: Use this parameter to specify which resource properties should be included in the response. Provide a list of schema property names, separated by the `|` delimiter.
+          schema:
+            type: string
+          example: name|in_stock_qty
+        - name: filter
+          in: query
+          description: |
+            Selection filters to display resources matching the provided criteria. 
+            Use the format `fieldName.operator~value`.
+            
+            **Basic Equality (eq)**
+            - For exact matches, use `fieldName.eq~value`.
+            
+            **Comparison Operators:**
+            - **Less Than (lt)** Use `fieldName.lt~value`.
+            - **Less Than or Equal To (lte)** Use `fieldName.lte~value`.
+            - **Greater Than (gt):** Use `fieldName.gt~value`.
+            - **Greater Than or Equal To (gte):** Use `fieldName.gte~value`.
+            
+            Separate filters using the `|` delimiter. 
+            Dates should be in `YYYY-MM-DD` format.
+          schema:
+            type: string
+            example: created_at.gt~2024-05-07|in_stock_qty.lt~5
+        - name: limit
+          in: query
+          description: Pagination filter for the maximum number of results to return in the response.
+          schema:
+            type: integer
+            maximum: 30
+          example: 10
+        - name: offset
+          in: query
+          description: Offset-based pagination filter for the number of results to skip before displaying resources.
+          schema:
+            type: integer
+            example: 0
+      responses:
+        '200':
+          description: The resource was retrieved by the server and is included in the response body.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Ingredient'
+                  total_results:
+                    type: integer
+                    example: 1
+        '400':
+          description: Bad request. The request was malformed or invalid. Ensure all required fields are provided and properly formatted.
+        '401':
+          description: Authentication failed. The client must provide a valid access token in the request.
+        '403':
+          description: Forbidden. Request failed due to insufficient permissions.
+        '500':
+          description: It's us not you. An unexpected error occurred on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+  /ingredients/{id}:
+    get:
+      summary: Retrieve details of an ingredient.
+      description: |
+        This operation retrieves the details of an ingredient using the ingredient ID. Specific fields can be selected to be included in the response.
+
+        Ingredient ID is a required field.
+
+        The server returns detailed information about the ingredient, including the name, price, and in-stock quantity.
+
+        If the ingredient is not found, a `404` error is returned.
+
+        This operation can be used by the client app to verify ingredients are have an in-stock quantity > 0, so any unavailable ingredients can be disabled on kithen display system (KDS).
+      operationId: getIngredient
+      tags:
+        - Ingredients
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: string
+          required: true
+          example: 614d706b67c122001f35cc47
+          description: Unique ID for the ingredient.
+        - name: fields
+          in: query
+          description: Use this parameter to specify which resource properties should be included in the response. Provide a list of schema property names, separated by the `|` delimiter.
+          schema:
+            type: string
+          example: in_stock_qty|name
+      responses:
+        '200':
+          description: The resource was retrieved by the server and is included in the response body.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ingredient'
+        '400':
+          description: Bad request. The request was malformed or invalid. Ensure all required fields are provided and properly formatted.
+        '401':
+          description: Authentication failed. The client must provide a valid access token in the request. 
+        '403':
+          description: Forbidden. Request failed due to insufficient permissions.
+        '404':
+          description: The requested resource could not be found. 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem404'
+        '500':
+          description: It's us not you. An unexpected error occurred on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+    put:
+      summary: Update ingredients.
+      description: |
+        This operation updates ingredients in the database using the ingredient ID.
+        
+        Ingredient ID is a required field and is specified in the query path. The ingredient name is a required field and is specified in the request body.  
+        
+        The fields to be updated are specified in the request body. 
+        
+        Updating ingredients requires an access token to be passed in the header.
+        
+        The server returns `200` and the updated details in the response. 
+        
+        Admins can use this operation to update the stock quantity of ingredients.
+
+      operationId: putIngredient
+      tags:
+        - Ingredients
+      security:
+        - AccessToken: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: 617d2e09ec42e0001f41bf84
+          description: Unique ID for the ingredient.
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateIngredientRequest'
+      responses:
+        '200':
+          description: Resource updated successfully. The response body contains the updated details.
+        '204':
+          description: Resource updated. No content to return.
+        '400':
+          description: Bad request. The request was malformed or invalid. Ensure all required fields are provided and properly formatted.
+        '401':
+          description: Authentication failed. The client must provide a valid access token in the request.
+        '403':
+          description: Forbidden. The client does not have the necessary permissions to update the order.
+        '404':
+          description: The requested resource could not be found. 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem404'
+        '409':
+          description: Conflict. The update could not be applied due to conflicting changes.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem409'
+        '500':
+          description: It's us not you. An unexpected error occurred on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+    delete:
+      summary: Delete ingredients.
+      description: |
+        This operation deletes an ingredient by ingredient ID. 
+        Once a dish is deleted, it cannot be recovered.
+
+        Deleting an ingredient requires an access token to be passed in the header.
+
+        The server removes the ingredient from the system and returns a `204` response. If the ingredient does not exist, a `404` error is returned.
+
+        This operation can be used by administrators to delete ingredients from the database.
+      operationId: deleteIngredient
+      tags:
+        - Ingredients
+      security:
+        - AccessToken: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: 61c8c34bb02368001f8f0812
+          description: Unique ID for the ingredient.
+      responses:
+        '204':
+          description: Resource updated. No content to return.
+        '400':
+          description: Bad request. The request was malformed or invalid. Ensure all required fields are provided and properly formatted.
+        '401':
+          description: Authentication failed. The client must provide a valid access token in the request.
+        '403':
+          description: Forbidden. Request failed due to insufficient permissions.
+        '404':
+          description: The requested resource could not be found. 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem404'
+        '500':
+          description: It's us not you. An unexpected error occurred on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+  /users:
+    post:
+      summary: Add users.
+      description: |
+        This operation adds users to the system. 
+        
+        A user name, password, role, and email are required fields and are added in the request body. 
+        
+        Some administrative operations require an access token to be passed in the header. The user name and password added here are exchanged for the access token. 
+        
+        The server validates the password and user name and returns a unique ID for the user. The user ID is used to get details of a user, delete a user, and update a user. 
+        
+      operationId: postUser
+      tags:
+        - Users
+      requestBody:
+        $ref: '#/components/requestBodies/CreateUserRequest'
+      responses:
+        '201':
+          description: Resource created successfully. The response body contains the newly created resource.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          headers:
+            Location:
+              schema:
+                type: string
+              description: ...
+        '400':
+          description: Bad request. The request was malformed or invalid. Ensure all required fields are provided and properly formatted.
+        '409':
+          description: Conflict. The update could not be applied due to conflicting changes.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem409'
+        '500':
+          description: It's us not you. An unexpected error occurred on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      security: []
+    get:
+      summary: Retrieve a list of users. 
+      description: |
+        This operation returns a paginated list users based on parameters specified in the query. 
+        Filters, sorting, and field selection can be used as parameters to filter the list of orders.
+
+        The server returns a list of users.
+      operationId: getAllUsers
+      tags:
+        - Users
+      parameters:
+        - name: sort
+          in: query
+          description: Specifies the field by which the results should be sorted. If you include an `order` value, you must include a `sort` value.
+          schema:
+            type: string
+          example: user_name
+        - name: order
+          in: query
+          description: Determines the order in which the results should be sorted. Specifies whether the sorting should be in ascending or descending order. Valid values are `asc` for ascending order and `desc` for descending order.  If you include an `order` value, you must include a `sort` value.
+          schema:
+            type: string
+          example: asc
+        - name: fields
+          in: query
+          description: Use this parameter to specify which resource properties should be included in the response. Provide a list of schema property names, separated by the `|` delimiter.
+          schema:
+            type: string
+          example: user_name|email|role
+        - name: filter
+          in: query
+          description: |
+            Selection filters to display resources matching the provided criteria. 
+            Use the format `fieldName.operator~value`.
+
+            **Basic Equality (eq)**
+            - For exact matches, use `fieldName.eq~value`.
+
+            **Comparison Operators:**
+            - **Less Than (lt)** Use `fieldName.lt~value`.
+            - **Less Than or Equal To (lte)** Use `fieldName.lte~value`.
+            - **Greater Than (gt):** Use `fieldName.gt~value`.
+            - **Greater Than or Equal To (gte):** Use `fieldName.gte~value`.
+            
+            Separate filters using the `|` delimiter. 
+            Dates should be in `YYYY-MM-DD` format.
+
+          schema:
+            type: string
+            example: created_at.gt~2024-05-07|user_name.eq~apiuser01
+        - name: limit
+          in: query
+          description: Pagination filter for the maximum number of results to return in the response.
+          schema:
+            type: integer
+            maximum: 30
+          example: 10
+        - name: offset
+          in: query
+          description: Offset-based pagination filter for the number of results to skip before displaying resources.
+          schema:
+            type: integer
+            example: 0
+      responses:
+        '200':
+          description: The resource was retrieved by the server and is included in the response body.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+                  total_results:
+                    type: integer
+                    example: 20
+        '400':
+          description: Bad request. The request was malformed or invalid. Ensure all required fields are provided and properly formatted.
+        '401':
+          description: Authentication failed. The client must provide a valid access token in the request.
+        '403':
+          description: ...
+        '500':
+          description: It's us not you. An unexpected error occurred on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+  /users/{id}:
+    get:
+      summary: Retrieve user details.
+      description:  |
+        This operation retrieves the details of a users order using the user ID. 
+        
+        User ID is a required field.  
+        
+        The `fields` query parameter can optionally be used to limit the fields returned in the response.
+        
+        The server returns detailed information about the user.
+        
+        If the user is not found, a `404` error is returned.
+      operationId: getUser
+      tags:
+        - Users
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: 66294b2a4475a41f3e709bc9
+          description: Unique ID for the user. 
+        - name: fields
+          in: query
+          description: Use this parameter to specify which resource properties should be included in the response. Provide a list of schema property names, separated by the `|` delimiter.
+          schema:
+            type: string
+          example: user_name|role
+      responses:
+        '200':
+          description: ...
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Bad request. The request was malformed or invalid. Ensure all required fields are provided and properly formatted.
+        '401':
+          description: Authentication failed. The client must provide a valid access token in the request.
+        '403':
+          description: Forbidden. Request failed due to insufficient permissions.
+        '404':
+          description: The requested resource could not be found. 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem404'
+        '500':
+          description: It's us not you. An unexpected error occurred on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+    put:
+      summary: Update user details.
+      description: |
+        This operation updates users in the database using the user ID.
+
+        User ID is a required field. The fields to be updated are specified in the request body.
+      
+        Updating user details requires an access token to be passed in the header.
+        
+        The server returns 200 and the updated details in the response.
+      
+      operationId: putUser
+      tags:
+        - Users
+      security:
+        - AccessToken: []
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateUserRequest'
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: 66294b2a4475a41f3e709bc9
+          description: Unique ID for the user. 
+      responses:
+        '200':
+          description: ...
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          headers:
+            Location:
+              schema:
+                type: string
+              description: ...
+        '204':
+          description: Resource updated. No content to return.
+        '400':
+          description: Bad request. The request was malformed or invalid. Ensure all required fields are provided and properly formatted.
+        '401':
+          description: Authentication failed. The client must provide a valid access token in the request.
+        '403':
+          description: Forbidden. Request failed due to insufficient permissions.
+        '404':
+          description: The requested resource could not be found. 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem404'
+        '409':
+          description: Conflict. The update could not be applied due to conflicting changes.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem409'
+        '500':
+          description: It's us not you. An unexpected error occurred on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+    delete:
+      summary: Delete users.
+      description: |
+        This operation deletes a user from the database using the user ID. Once a user is deleted, it cannot be recovered.
+
+        Deleting users requires an access token to be passed in the header.
+        
+        The server removes the user from the system and returns a `204` response. 
+        If the user does not exist, a `404` error is returned.
+      operationId: deleteUser
+      tags:
+        - Users
+      security:
+        - AccessToken: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: 66294b2a4475a41f3e709bca
+          description: Unique ID of the user.
+      responses:
+        '204':
+          description: Resource updated. No content to return.
+        '400':
+          description: Bad request. The request was malformed or invalid. Ensure all required fields are provided and properly formatted.
+        '401':
+          description: Authentication failed. The client must provide a valid access token in the request.
+        '403':
+          description: Forbidden. Request failed due to insufficient permissions.
+        '404':
+          description: The requested resource could not be found. 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '500':
+          description: It's us not you. An unexpected error occurred on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+  /auth/token:
+    post:
+      summary: Authenticate the user and obtain an access token
+      description: |
+         This operation exchanges the user's username and password directly for an access token.
+         
+         The client ID and client secret are used for client authentication (basic). Certain endpoints require the access token in the Authorization header to perform admin functions like creating menus. 
+         
+         If an existing access token is associated with the user, it will be invalidated before a new one is generated.
+      operationId: postAuthLogin
+      tags:
+        - Auth
+      security:
+        - BasicAuth: []
+      requestBody:
+        $ref: '#/components/requestBodies/CreateTokenRequest'
+      responses:
+        '201':
+          description: Resource created successfully. The response body contains the newly created resource.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Auth'
+          headers:
+            Location:
+              schema:
+                type: string
+              description: ...
+        '400':
+          description: Bad request. The request was malformed or invalid.
+        '409':
+          description: Conflict error. The update could not be applied due to conflicting changes.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem409'
+        '500':
+          description: It's us not you. An unexpected error occurred on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+  /auth/refresh-token:
+    post:
+      summary: Refresh access token.
+      description: |
+        This operation provides a new set of access and refresh tokens, allowing users to maintain access to the system without re-authenticating. 
+        The initial tokens are generated as part of a user's initial authentication flow.
+         
+        The refresh token is required in the request body. 
+
+         The server validates the refresh token and issues a new access token, an updated refresh token, and expiration.
+          If the refresh token is invalid, expired, or revoked, the server returns an error.
+    
+         The new access token is used the `Authorization` header for subsequent requests to protected operations.
+         
+        Refresh tokens can be used to improve the authentication experience by allowing users to continuously access protected operations after they complete the initial authorization.
+      operationId: postAuthRefreshToken
+      tags:
+        - Auth
+      requestBody:
+        description: Request body for refresh token.
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                refresh_token:
+                  $ref: '#/components/schemas/RefreshToken'
+      responses:
+        '200':
+          description: Resource created successfully. The response body contains the newly created resource.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Auth'
+          headers:
+            Location:
+              schema:
+                type: string
+              description: ...
+        '400':
+          description: Bad request. The request was malformed or invalid. Ensure all required fields are provided and properly formatted.
+        '401':
+          description: Authentication failed. The client must provide a valid access token in the request.
+        '403':
+          description: Forbidden. Request failed due to insufficient permissions.
+        '404':
+          description: The requested resource could not be found. 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem404'
+        '500':
+          description: It's us not you. An unexpected error occurred on the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+components:
+  requestBodies:
+    CreateDishRequest:
+      description: Request body for adding a dish.
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                example: Risotto alla Milanese
+                description: The name of the dish to be added. The name must be unique. 
+              description: 
+                $ref: '#/components/schemas/Description'
+              category:
+                $ref: '#/components/schemas/Category'
+              image_name:
+                $ref: '#/components/schemas/ImageName'
+              ingredients:
+                $ref: '#/components/schemas/Ingredients'
+              preparation_time:
+                $ref: '#/components/schemas/PreparationTime'
+              price:
+                $ref: '#/components/schemas/Price'
+              station:
+                $ref: '#/components/schemas/Station'
+            required:
+              - category
+              - description
+              - image_name
+              - ingredients
+              - preparation_time
+              - name
+              - price
+              - station
+    UpdateDishRequest:
+      description: Request body to update dish details.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                example: Risotto alla Milanese
+                description: Descriptive name of the dish. Must be unique.
+              description:
+                $ref: '#/components/schemas/Description'
+              category:
+                $ref: '#/components/schemas/Category'
+              image_name:
+                $ref: '#/components/schemas/ImageName'
+              ingredients:
+                $ref: '#/components/schemas/Ingredients'
+              preparation_time:
+                $ref: '#/components/schemas/PreparationTime'
+              price:
+                $ref: '#/components/schemas/Price'
+              station:
+                $ref: '#/components/schemas/Station'
+    CreateIngredientRequest:
+      description: Request body to add ingredients.
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                example: Carrot
+                description: Ingredient name. Must be unique.
+              in_stock_qty:
+                $ref: '#/components/schemas/InStockQty'
+              price:
+                $ref: '#/components/schemas/Price'
+            required:
+              - name
+              - in_stock_qty
+              - price
+    UpdateIngredientRequest:
+      description: Reuest body to update ingredients.
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                example: Carrot
+                description: Ingredient name. Must be unique.
+              in_stock_qty:
+                $ref: '#/components/schemas/InStockQty'
+              price:
+                $ref: '#/components/schemas/Price'
+    CreateOrderRequest:
+      description: Request body to add orders.
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                pattern: ^[^\s]*$
+                example: John
+                description: Name of the customer.
+              table_number:
+                $ref: '#/components/schemas/TableNumber'
+              dish_ids:
+                $ref: '#/components/schemas/DishIds'
+              special_requests:
+                $ref: '#/components/schemas/SpecialRequests'
+              scheduled_at:
+                $ref: '#/components/schemas/ScheduledAt'
+            required:
+              - dish_ids
+              - name
+          examples:
+            Order - Unscheduled:
+              value:
+                name: Ben
+                table_number: 18
+                dish_ids:
+                  - 692a4a34a46ecf001f35ac6f
+                  - 6a4a857c022eb7001f9b8972
+                  - 6b7c2441a0db43001f9bf377
+                special_requests: No peanuts.
+                scheduled at: null
+            Order - Scheduled:
+              value:
+                name: Ben
+                table_number: 18
+                dish_ids:
+                  - 692a4a34a46ecf001f35ac6f
+                  - 6a4a857c022eb7001f9b8972
+                  - 6b7c2441a0db43001f9bf377
+                scheduled_at: '2024-08-26T09:03:18.865Z'
+    UpdateOrderRequest:
+      description: ...
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              dish_ids:
+                $ref: '#/components/schemas/DishIds'
+              priority:
+                $ref: '#/components/schemas/Priority'
+              status:
+                $ref: '#/components/schemas/Status'
+    CreateTokenRequest:
+      description: Request body to authenticate users. 
+      required: true
+      content:
+        application/json:
+          schema:
+            properties:
+              grant_type: 
+                description: Tells the login endpoint to perform the resource owner password credential flow.
+                type: string
+                example: password
+              user_name: 
+                $ref: '#/components/schemas/UserName'
+              password:
+                $ref: '#/components/schemas/Password'
+            required:
+              - grant_type
+              - user_name
+              - password
+    CreateUserRequest:
+      description: Request body to add users.
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              email:
+                $ref: '#/components/schemas/Email'
+              password:
+                $ref: '#/components/schemas/Password'
+              role:
+                $ref: '#/components/schemas/Role'
+              user_name:
+                $ref: '#/components/schemas/UserName'
+            required:
+              - email
+              - password
+              - role
+              - user_name
+    UpdateUserRequest:
+      description: Request body to update user details.
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              email:
+                $ref: '#/components/schemas/Email'
+              password:
+                $ref: '#/components/schemas/Password'
+              role:
+                $ref: '#/components/schemas/Role'
+              user_name:
+                $ref: '#/components/schemas/UserName'
+  schemas:
+    AccessToken:
+      type: string
+      description: Unique alphanumeric id of the access token. 
+      example: fa0b97b2-445f-41d2-b50f-fb3b014a301e
+    SpecialRequests:
+      type: string
+      nullable: true
+      description: Additional instructions or requests for the customer's order. 
+    Auth:
+      type: object
+      description: Authentication details for the user. Inlcudes the access and refresh tokens. 
+      properties:
+        auth_id:
+          $ref: '#/components/schemas/Id'
+        created_at:
+          $ref: '#/components/schemas/CreatedAt'
+        updated_at:
+          $ref: '#/components/schemas/UpdatedAt'
+        access_token:
+          $ref: '#/components/schemas/AccessToken'
+        expires_at:
+          $ref: '#/components/schemas/ExpiresAt'
+        refresh_token:
+          $ref: '#/components/schemas/RefreshToken'
+        token_type:
+          $ref: '#/components/schemas/TokenType'
+        user_name:
+          $ref: '#/components/schemas/UserName'
+    Category:
+      type: string
+      enum:
+        - Appetizer
+        - Main Course
+        - Dessert
+        - Drinks
+      example: Main Course
+      description: The meal or course to which the dish belongs, such as `Appetizer`, `Main Course`, or `Dessert`. Categories are displayed to patrons in the menu. 
+    CreatedAt:
+      type: string
+      format: date-time
+      example: '2024-04-22T10:00:00Z'
+      readOnly: true
+      description: Date and time the resource was created. Format YYYYMMDDT00:00:00Z
+    Description: 
+      type: string
+      description: A short description of the dish, highlighting its key ingredients or special characteristics.
+      example: A fresh salad featuring ripe tomatoes, mozzarella cheese, basil, and a drizzle of balsamic vinegar. 
+    Dish:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        created_at:
+          $ref: '#/components/schemas/CreatedAt'
+        name:
+          type: string
+          example: Risotto alla Milanese
+          description: Name of the dish. 
+        description:
+          $ref: '#/components/schemas/Description'
+        category:
+          $ref: '#/components/schemas/Category'
+        image_name:
+          $ref: '#/components/schemas/ImageName'
+        ingredients:
+          $ref: '#/components/schemas/Ingredients'
+        preparation_time:
+          $ref: '#/components/schemas/PreparationTime' 
+        price:
+          $ref: '#/components/schemas/Price'
+        station:
+          $ref: '#/components/schemas/Station'
+    DishIds:
+      type: array
+      description: A list of dish IDs for an order. 
+      items:
+        type: string
+        example:
+        - 692a4a34a46ecf001f35ac6f
+        - 6a4a857c022eb7001f9b8972
+        - 6b7c2441a0db43001f9bf377
+      
+    Email:
+      type: string
+      format: email
+      description: Email address of the user. A valid email format is required.   
+      example: johndoe@gmail.com
+    ExpiresAt:
+      type: string
+      format: date-time
+      example: '2024-04-22T10:00:00Z'
+      readOnly: true
+      description: Date and time that the token expires. Format YYYYMMDDT00:00:00Z 
+    RefreshToken:
+      type: string
+      description: Number of the refresh token.
+      example: d1a3e281-96b6-4f77-a587-7b6c8c2a96d9
+    Id:
+      type: string
+      example: 674d0bf5c28b69001f8e03a1
+      readOnly: true
+      description: Unique identifier for the resource.
+    ImageName:
+      type: string
+      description: The filename of the picture of the dish. Used to display the dish visually on the menu.
+      example: burger
+    Ingredients:
+      type: array
+      description: A list of ingredient IDs and their essential status for the dish. 
+      items:
+        type: object
+        properties:
+          ingredient_id:
+            type: string
+            example: 66294b2a4475a41f3e709bc4
+            description: Unique identifier for the ingredient.
+          is_essential:
+            type: boolean
+            description: Dishes cannot be prepared without essential ingredients. If `is_essential` is true, the dish cannot be prepared unless this ingredient is available in stock (`in_stock_qty` > 0). 
+            example: true
+        example:
+          - ingredient_id: 66294b2a4475a41f3e709bc5
+            is_essential: true
+          - ingredient_id: 66294b2a4475a41f3e709bc6
+            is_essential: true
+          - ingredient_id: 66294b2a4475a41f3e709bc7
+            is_essential: false
+    Ingredient:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        created_at:
+          $ref: '#/components/schemas/CreatedAt'
+        updated_at:
+          $ref: '#/components/schemas/UpdatedAt'
+        name:
+          type: string
+          example: Carrot
+          description: The name of the ingredient. 
+        in_stock_qty:
+          $ref: '#/components/schemas/InStockQty'
+        price:
+          $ref: '#/components/schemas/Price'
+    InStockQty:
+      type: integer
+      description: The quantity of the ingredient in stock. If in_stock_qty < 1, the ingredient is disabled on the UI. 
+      example: 3
+    Order:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        created_at:
+          $ref: '#/components/schemas/CreatedAt'
+        updated_at:
+          $ref: '#/components/schemas/UpdatedAt'
+        name:
+          type: string
+          pattern: ^[^\s]*$
+          example: John
+          description: Name of the customer who made the order.
+        table_number:
+          $ref: '#/components/schemas/TableNumber'
+        dish_ids:
+          $ref: '#/components/schemas/DishIds'
+        special_requests:
+          $ref: '#/components/schemas/SpecialRequests'
+        priority:
+          $ref: '#/components/schemas/Priority'
+        scheduled_at:
+          $ref: '#/components/schemas/ScheduledAt'
+        status:
+          $ref: '#/components/schemas/Status'
+    Password:
+      type: string
+      description: A password must be at least eight characters long and contain at least one uppercase letter, one lowercase letter, one digit, and one special character (@, $, !, %, *, ?, &).
+      example: P@ssw0rd!
+    PreparationTime:
+      type: integer
+      description: The length of time in minutes to create the dish. 
+      example: 45
+    Price:
+      type: number
+      format: float
+      example: 999
+      description: The price of the resource per unit. 
+    Priority:
+      type: integer
+      minimum: 0
+      maximum: 5
+      default: 3
+      description: The priority level of the order (`0` is the lowest priority; `5` is the highest). Higher priority orders are prepared first.
+    Problem:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Human-readable error description.
+          example: Internal Server Error.
+        detail:
+          type: string
+          description: Human-readable error details.
+          example: An unexpected error occurred while processing the request. Please try again later.
+      required:
+        - title
+        - detail
+    Problem404:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Human-readable error description.
+          example: Not found.
+        detail:
+          type: string
+          description: Human-readable error details.
+          example: Resource not found. Ensure the ID is correct.
+      required:
+        - title
+        - detail    
+    Problem409:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Human-readable error description.
+          example: Conflict. 
+        detail:
+          type: string
+          description: Human-readable error details.
+          example: The request is valid, but cannot be completed due to some kind of mismatch. The resource that you are trying to add might already exist in the system.
+      required:
+        - title
+        - detail
+    Role:
+      type: string
+      enum:
+        - patron
+        - expeditor
+        - chef
+        - manager
+      example: manager
+      description: The staff role of the user. Determines what a user can access in the system.
+    ScheduledAt:
+      type: string
+      format: date-time
+      description: Date and time the order is due. Used by expeditors to plan orders.
+      nullable: true
+      example: null
+    Station:
+      type: string
+      description: The staff station where the order is prepared.
+      enum:
+        - cold
+        - hot
+        - beverages
+      example: hot
+    Status:
+      type: string
+      nullable: true
+      enum:
+        - Draft
+        - Received
+        - In Progress
+        - Ready for Assembly
+        - On the Way
+        - Ready for Pickup
+      example: Received
+      description: The preparation stage of the order. Expeditors and staff can change the status to move the order to the next stage of preparation. 
+    TableNumber:
+      type: integer
+      example: 8
+      nullable: true
+      description: The number of the table for the order. 
+    TokenType:
+      type: string
+      description: The type of token used for authentication. 
+      example: Bearer
+    UpdatedAt:
+      type: string
+      format: date-time
+      example: '2024-04-22T10:00:00Z'
+      readOnly: true
+      description: Date and time of the last update to the resource.
+    User:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        created_at:
+          $ref: '#/components/schemas/CreatedAt'
+        updated_at:
+          $ref: '#/components/schemas/UpdatedAt'
+        user_name:
+          $ref: '#/components/schemas/UserName'
+        email:
+          $ref: '#/components/schemas/Email'
+        password:
+          $ref: '#/components/schemas/Password'
+        role:
+          $ref: '#/components/schemas/Role'
+    UserName:
+      type: string
+      description: The user name of the user for login purposes. It cannot contain spaces.
+      example: john_doe
+  securitySchemes:
+    AccessToken:
+      type: http
+      scheme: bearer
+    BasicAuth:
+      type: http
+      scheme: basic
+      description: The type of authentication used. 
