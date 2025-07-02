@@ -83,7 +83,7 @@
       },
       {
         "tab": "System architecture",
-        "pages": "architecuture/architecture"         
+        "pages": ["architecuture/architecture" ]        
        }
     ],
     "global": {
