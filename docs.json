@@ -25,6 +25,7 @@
           
         ]
       },
+      
       {
         "tab": "API Reference",
         "groups": [
@@ -77,7 +78,21 @@
               "api-reference/endpoint/post_auth_token"
             ]
           }
+          
                   ]
+      },
+      {
+        "tab": "System architecture",
+        "groups": [
+          {
+            "group": "System architecture",
+            "pages": [
+              "architecuture/architecture"
+             
+            ]
+          }
+          
+        ]
       }
     ],
     "global": {
