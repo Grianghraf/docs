@@ -1,5 +1,5 @@
 ---
-title: "Staff API Flow"
+title: "Staff flow"
 description: "Preparing and prioritizing orders."
 ---
 
@@ -44,7 +44,7 @@ Where: `{date today}`= today's date in the format `yyyy-mm-dd`
 
 **Example request**
 
-```curl curl
+```curl
 curl -X GET \
 'https://refactored-eureka-x4g44xx55g4f9px7-80.app.github.dev/dishes?filter=status.eq~Received|created_at.gte~2025-01-01' \
 -H 'accept: application/json' \
@@ -99,7 +99,7 @@ Where: `{id}`= the id of the order.
 
 **Example request**
 
-```curl curl
+```curl
 curl -X PUT\
 'https://refactored-eureka-x4g44xx55g4f9px7-80.app.github.dev/orders/6820fe8a0443bc50461daa35' \
 -H 'accept: application/json' \
@@ -166,7 +166,7 @@ Where: `{id}`= the id of the order.
 
 **Example request**
 
-```curl curl
+```curl
 curl -X PUT\
 'https://refactored-eureka-x4g44xx55g4f9px7-80.app.github.dev/orders/6820fe8a0443bc50461daa35' \
 -H 'accept: application/json' \
@@ -236,7 +236,7 @@ Where:
 
 **Example request**
 
-```curl curl
+```curl
 curl -X GET\
 'https://refactored-eureka-x4g44xx55g4f9px7-80.app.github.dev/orders/6820fe8a0443bc50461daa35/dishes?filter=station.eq~hot' \
 -H 'accept: application/json' \
@@ -311,7 +311,7 @@ Where: `{id}`= the id of the order.
 
 **Example request**
 
-```curl curl
+```curl
 curl -X GET\
 'https://refactored-eureka-x4g44xx55g4f9px7-80.app.github.dev/orders/6820fe8a0443bc50461daa35/ingredients' \
 -H 'accept: application/json' \
@@ -365,7 +365,7 @@ Where: `{id}`= the id of the order.
 
 **Example request**
 
-```curl curl
+```curl
 curl -X PUT\
 'https://refactored-eureka-x4g44xx55g4f9px7-80.app.github.dev/orders/6820fe8a0443bc50461daa35' \
 -H 'accept: application/json' \
@@ -432,7 +432,7 @@ Where: `{id}`= the id of the order.
 
 **Example request**
 
-```curl curl
+```curl
 curl -X PUT\
 'https://refactored-eureka-x4g44xx55g4f9px7-80.app.github.dev/orders/6820fe8a0443bc50461daa35' \
 -H 'accept: application/json' \
