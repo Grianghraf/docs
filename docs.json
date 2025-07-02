@@ -90,7 +90,14 @@
     "light": "/logo/Logo_Kitchen3.svg",
     "dark": "/logo/Logo_Kitchen3.svg"
   },
-  "navbar": {  
+  "navbar":  {
+    
+    "primary": {
+      "type": "button",
+      "label": "Home",
+      "href": "https://dashboard.mintlify.com"
+    }
+    
   },
   "footer": {
     "socials": {
