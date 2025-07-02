@@ -43,7 +43,6 @@
             "pages": [
               "api-reference/endpoint/get_dishes",
               "api-reference/endpoint/get_dishes_id",
-              "api-reference/endpoint/get_dishes_order",
               "api-reference/endpoint/post_dishes",
               "api-reference/endpoint/put_dishes",
               "api-reference/endpoint/delete_dishes"
@@ -90,14 +89,7 @@
     "light": "/logo/light.svg",
     "dark": "/logo/dark.svg"
   },
-  "navbar": {
-    "links": [    
-    ],
-    "primary": {
-      "type": "button",
-      "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
-    }
+  "navbar": {  
   },
   "footer": {
     "socials": {
