@@ -14,7 +14,7 @@
         "tab": "User flow",
         "groups": [
           {
-            "group": "Flow for users",
+            "group": "Flow by staff member",
             "pages": [
               "api-flows/admin",
               "api-flows/patron",
