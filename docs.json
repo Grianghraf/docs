@@ -96,15 +96,15 @@
     }
   },
   "logo": {
-    "light": "/logo/Logo_Kitchen3.svg",
-    "dark": "/logo/Logo_Kitchen3.svg"
+    "light": "/logo/Logo_Kitchen.png",
+    "dark": "/logo/Logo_Kitchen.png"
   },
   "navbar":  {
     
     "primary": {
       "type": "button",
       "label": "Home",
-      "href": "https://index.com"
+      "href": "https://oldspeak.mintlify.app"
     }
     
   },
