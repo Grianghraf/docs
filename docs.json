@@ -30,15 +30,7 @@
         ]
       },
 
-      {
-        "tab": "architecture",
-        "pages": ["architecture/architecture"]
-          
-          
-        
-      },
-
-     
+           
       {
         "tab": "API Reference",
         "groups": [
